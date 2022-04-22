@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  WeatherDisplayViewController.swift
 //  ios-training
 //
 //  Created by 大西 玲音 on 2022/04/22.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class WeatherDisplayViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
