@@ -7,13 +7,12 @@
 
 import Foundation
 
-protocol WeatherPresenterable {
+protocol WeatherPresentable {
     func fetchWeather() -> WeatherProtocol?
 }
 
-final class WeatherPresenter: WeatherPresenterable {
+final class WeatherPresenter: WeatherPresentable {
     
-    private let weathers: [WeatherProtocol] = [Sunny(), Rainy(), Cloudy()]
     private let weatherUseCase: WeatherUseCaseProtocol
     
     init(weatherUseCase: WeatherUseCaseProtocol) {
@@ -22,7 +21,7 @@ final class WeatherPresenter: WeatherPresenterable {
     
     func fetchWeather() -> WeatherProtocol? {
         let fetchedWeather = weatherUseCase.fetchWeather()
-        guard let weather = weathers.first(where: { $0.name == fetchedWeather }) else {
+        guard let weather = weatherUseCase.weathers.first(where: { $0.name == fetchedWeather }) else {
             print("該当する天気がない")
             return nil
         }

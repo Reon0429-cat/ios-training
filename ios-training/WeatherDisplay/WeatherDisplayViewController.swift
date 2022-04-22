@@ -12,7 +12,7 @@ final class WeatherDisplayViewController: UIViewController {
     @IBOutlet private weak var weatherImageView: UIImageView!
     @IBOutlet private weak var weatherReloadButton: UIButton!
     
-    private let weatherPresenter: WeatherPresenterable = WeatherPresenter(
+    private let weatherPresenter: WeatherPresentable = WeatherPresenter(
         weatherUseCase: WeatherUseCase()
     )
         

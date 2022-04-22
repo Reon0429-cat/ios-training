@@ -9,12 +9,15 @@ import Foundation
 import YumemiWeather
 
 protocol WeatherUseCaseProtocol {
-    // 一旦、同期処理のみ実装しておく
     func fetchWeather() -> String
+    var weathers: [WeatherProtocol] { get }
 }
 
 final class WeatherUseCase: WeatherUseCaseProtocol {
     
+    let weathers: [WeatherProtocol] = [Sunny(), Rainy(), Cloudy()]
+
+    // 一旦、同期処理のみ実装しておく
     func fetchWeather() -> String {
         let fetchedWeather = YumemiWeather.fetchWeather()
         return fetchedWeather
