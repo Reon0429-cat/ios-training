@@ -37,7 +37,6 @@ final class WeatherDisplayViewController: UIViewController {
 
 private extension WeatherType {
     var imageName: UIImage? {
-        return UIImage(named: self.name)
         switch self {
         case .sunny:
             return UIImage(named: "sunny")
