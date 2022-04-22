@@ -8,7 +8,7 @@
 import Foundation
 
 protocol WeatherPresentable {
-    func fetchWeather() -> WeatherProtocol?
+    func fetchWeather() -> WeatherType?
 }
 
 final class WeatherPresenter: WeatherPresentable {
@@ -19,7 +19,7 @@ final class WeatherPresenter: WeatherPresentable {
         self.weatherUseCase = weatherUseCase
     }
     
-    func fetchWeather() -> WeatherProtocol? {
+    func fetchWeather() -> WeatherType? {
         let fetchedWeather = weatherUseCase.fetchWeather()
         return fetchedWeather
     }

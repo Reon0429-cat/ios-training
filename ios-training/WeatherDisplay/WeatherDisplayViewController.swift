@@ -29,9 +29,32 @@ final class WeatherDisplayViewController: UIViewController {
     
     private func displayWeather() {
         guard let weather = weatherPresenter.fetchWeather() else { return }
-        weatherImageView.image = UIImage(named: weather.imageName)
-        weatherImageView.tintColor = weather.color
+        weatherImageView.image = weather.imageName
+        weatherImageView.tintColor = weather.imageColor
     }
     
 }
 
+private extension WeatherType {
+    var imageName: UIImage? {
+        return UIImage(named: self.name)
+        switch self {
+        case .sunny:
+            return UIImage(named: "sunny")
+        case .rainy:
+            return UIImage(named: "rainy")
+        case .cloudy:
+            return UIImage(named: "cloudy")
+        }
+    }
+    var imageColor: UIColor {
+        switch self {
+        case .sunny:
+            return .red
+        case .rainy:
+            return .blue
+        case .cloudy:
+            return .gray
+        }
+    }
+}
