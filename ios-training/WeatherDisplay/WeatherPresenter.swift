@@ -21,11 +21,7 @@ final class WeatherPresenter: WeatherPresentable {
     
     func fetchWeather() -> WeatherProtocol? {
         let fetchedWeather = weatherUseCase.fetchWeather()
-        guard let weather = weatherUseCase.weathers.first(where: { $0.name == fetchedWeather }) else {
-            print("該当する天気がない")
-            return nil
-        }
-        return weather
+        return fetchedWeather
     }
     
 }
