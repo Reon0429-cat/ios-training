@@ -12,7 +12,7 @@ final class WeatherDisplayViewController: UIViewController {
     @IBOutlet private weak var weatherImageView: UIImageView!
     @IBOutlet private weak var weatherReloadButton: UIButton!
     
-    private let weatherPresenter: WeatherUseCaseProtocol = WeatherUseCase()
+    private let weatherUseCse: WeatherUseCaseProtocol = WeatherUseCase()
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,7 +24,7 @@ final class WeatherDisplayViewController: UIViewController {
     }
     
     private func displayWeather() {
-        guard let weather = weatherPresenter.fetchWeather() else {
+        guard let weather = weatherUseCse.fetchWeather() else {
             fatalError("天気の取得に失敗")
         }
         weatherImageView.image = UIImage(named: weather.imageName)
