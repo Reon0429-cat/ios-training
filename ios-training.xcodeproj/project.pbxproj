@@ -106,6 +106,7 @@
 			isa = PBXGroup;
 			children = (
 				690C8509281272E400914156 /* WeatherType.swift */,
+				690C850F2812754A00914156 /* WeatherUseCase.swift */,
 				690C850C281273C800914156 /* WeatherDisplay */,
 				690C84D42812588A00914156 /* AppDelegate.swift */,
 				690C84D62812588A00914156 /* SceneDelegate.swift */,
@@ -138,7 +139,6 @@
 			children = (
 				690C84DA2812588A00914156 /* WeatherDisplay.storyboard */,
 				690C84D82812588A00914156 /* WeatherDisplayViewController.swift */,
-				690C850F2812754A00914156 /* WeatherUseCase.swift */,
 			);
 			path = WeatherDisplay;
 			sourceTree = "<group>";
