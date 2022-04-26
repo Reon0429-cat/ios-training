@@ -12,15 +12,11 @@ final class WeatherDisplayViewController: UIViewController {
     @IBOutlet private weak var weatherImageView: UIImageView!
     @IBOutlet private weak var weatherReloadButton: UIButton!
     
-    private let weatherPresenter: WeatherPresentable = WeatherPresenter(
-        weatherUseCase: WeatherUseCase()
-    )
+    private let weatherPresenter: WeatherUseCaseProtocol = WeatherUseCase()
         
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         displayWeather()
-        
     }
     
     @IBAction private func weatherReloadButtonDidTapped(_ sender: Any) {
@@ -28,22 +24,24 @@ final class WeatherDisplayViewController: UIViewController {
     }
     
     private func displayWeather() {
-        guard let weather = weatherPresenter.fetchWeather() else { return }
-        weatherImageView.image = weather.imageName
+        guard let weather = weatherPresenter.fetchWeather() else {
+            fatalError("天気の取得に失敗")
+        }
+        weatherImageView.image = UIImage(named: weather.imageName)
         weatherImageView.tintColor = weather.imageColor
     }
     
 }
 
 private extension WeatherType {
-    var imageName: UIImage? {
+    var imageName: String {
         switch self {
         case .sunny:
-            return UIImage(named: "sunny")
+            return "sunny"
         case .rainy:
-            return UIImage(named: "rainy")
+            return "rainy"
         case .cloudy:
-            return UIImage(named: "cloudy")
+            return "cloudy"
         }
     }
     var imageColor: UIColor {

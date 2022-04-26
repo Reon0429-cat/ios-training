@@ -7,18 +7,8 @@
 
 import Foundation
 
-enum WeatherType: CaseIterable {
+enum WeatherType: String {
     case sunny
     case rainy
     case cloudy
-    var name: String {
-        switch self {
-        case .sunny:
-            return "sunny"
-        case .rainy:
-            return "rainy"
-        case .cloudy:
-            return "cloudy"
-        }
-    }
 }
