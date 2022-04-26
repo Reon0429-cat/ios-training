@@ -9,15 +9,19 @@ import Foundation
 import YumemiWeather
 
 protocol WeatherUseCaseProtocol {
-    func fetchWeather() -> WeatherType?
+    func fetchWeather() throws -> WeatherType
+}
+
+enum WeatherFetchError: Error {
+    case notFound
 }
 
 final class WeatherUseCase: WeatherUseCaseProtocol {
 
-    func fetchWeather() -> WeatherType?  {
-        let fetchedYumemiWeather = YumemiWeather.fetchWeather()
+    func fetchWeather() throws -> WeatherType {
+        let fetchedYumemiWeather = try YumemiWeather.fetchWeather(at: "tokyo")
         guard let weather = WeatherType(rawValue: fetchedYumemiWeather) else {
-            return nil
+            throw WeatherFetchError.notFound
         }
         return weather
     }

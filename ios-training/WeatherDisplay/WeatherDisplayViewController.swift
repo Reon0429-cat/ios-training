@@ -8,12 +8,12 @@
 import UIKit
 
 final class WeatherDisplayViewController: UIViewController {
-
+    
     @IBOutlet private weak var weatherImageView: UIImageView!
     @IBOutlet private weak var weatherReloadButton: UIButton!
     
     private let weatherUseCse: WeatherUseCaseProtocol = WeatherUseCase()
-        
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         displayWeather()
@@ -24,14 +24,20 @@ final class WeatherDisplayViewController: UIViewController {
     }
     
     private func displayWeather() {
-        guard let weather = weatherUseCse.fetchWeather() else {
-            fatalError("天気の取得に失敗")
+        do {
+            let weather = try weatherUseCse.fetchWeather()
+            weatherImageView.image = UIImage(named: weather.imageName)
+            weatherImageView.tintColor = weather.imageColor
+        } catch let error as WeatherFetchError {
+            presentErrorAlert(title: "エラーが発生しました。\(error)")
+        } catch {
+            presentErrorAlert(title: "エラーが発生しました。\(error)")
         }
-        weatherImageView.image = UIImage(named: weather.imageName)
-        weatherImageView.tintColor = weather.imageColor
     }
     
 }
+
+extension WeatherDisplayViewController: AlertPresentable { }
 
 private extension WeatherType {
     var imageName: String {
