@@ -17,8 +17,7 @@ final class WeatherUseCase: WeatherUseCaseProtocol {
     // 一旦、同期処理のみ実装しておく
     func fetchWeather() -> WeatherType?  {
         let fetchedYumemiWeather = YumemiWeather.fetchWeather()
-        let weathers = WeatherType.allCases
-        guard let weather = weathers.first(where: { $0.name == fetchedYumemiWeather }) else {
+        guard let weather = WeatherType(rawValue: fetchedYumemiWeather) else {
             return nil
         }
         return weather
