@@ -7,11 +7,11 @@
 
 import UIKit
 
-protocol AlertPresentable: UIViewController {
+protocol AlertPresentable {
     func presentErrorAlert(title: String)
 }
 
-extension AlertPresentable {
+extension AlertPresentable where Self: UIViewController {
     
     func presentErrorAlert(title: String) {
         let alert = UIAlertController(title: title,
