@@ -21,6 +21,7 @@
 		690C85182817BD4300914156 /* AlertPresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 690C85172817BD4300914156 /* AlertPresentable.swift */; };
 		690C851A2818D92300914156 /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 690C85192818D92300914156 /* Weather.swift */; };
 		690C851C2818DC6700914156 /* WeatherType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 690C851B2818DC6700914156 /* WeatherType.swift */; };
+		690C851E28191D2600914156 /* WeatherRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 690C851D28191D2600914156 /* WeatherRequest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -58,6 +59,7 @@
 		690C85172817BD4300914156 /* AlertPresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresentable.swift; sourceTree = "<group>"; };
 		690C85192818D92300914156 /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
 		690C851B2818DC6700914156 /* WeatherType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherType.swift; sourceTree = "<group>"; };
+		690C851D28191D2600914156 /* WeatherRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherRequest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +112,7 @@
 			isa = PBXGroup;
 			children = (
 				690C85192818D92300914156 /* Weather.swift */,
+				690C851D28191D2600914156 /* WeatherRequest.swift */,
 				690C851B2818DC6700914156 /* WeatherType.swift */,
 				690C85172817BD4300914156 /* AlertPresentable.swift */,
 				690C850F2812754A00914156 /* WeatherUseCase.swift */,
@@ -286,6 +289,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				690C851E28191D2600914156 /* WeatherRequest.swift in Sources */,
 				690C84D92812588A00914156 /* WeatherDisplayViewController.swift in Sources */,
 				690C85102812754A00914156 /* WeatherUseCase.swift in Sources */,
 				690C851C2818DC6700914156 /* WeatherType.swift in Sources */,
