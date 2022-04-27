@@ -9,6 +9,8 @@ import UIKit
 
 final class WeatherDisplayViewController: UIViewController {
     
+    @IBOutlet private weak var minTemperatureLabel: UILabel!
+    @IBOutlet private weak var maxTemperatureLabel: UILabel!
     @IBOutlet private weak var weatherImageView: UIImageView!
     @IBOutlet private weak var weatherReloadButton: UIButton!
     
@@ -28,6 +30,8 @@ final class WeatherDisplayViewController: UIViewController {
             let weather = try weatherUseCse.fetchWeather()
             weatherImageView.image = UIImage(named: weather.imageName)
             weatherImageView.tintColor = weather.imageColor
+            minTemperatureLabel.text = String(weather.minTemp)
+            maxTemperatureLabel.text = String(weather.maxTemp)
         } catch let error as WeatherFetchError {
             let errorDescription = error.errorDescription ?? ""
             presentErrorAlert(title: "エラーが発生しました。\(errorDescription)")
@@ -40,9 +44,17 @@ final class WeatherDisplayViewController: UIViewController {
 
 extension WeatherDisplayViewController: AlertPresentable { }
 
-private extension WeatherType {
+private extension Weather {
+    
+    var weatherType: WeatherType {
+        guard let weatherType = WeatherType(rawValue: weather) else {
+            fatalError("想定外の天気")
+        }
+        return weatherType
+    }
+    
     var imageName: String {
-        switch self {
+        switch weatherType {
         case .sunny:
             return "sunny"
         case .rainy:
@@ -51,8 +63,9 @@ private extension WeatherType {
             return "cloudy"
         }
     }
+    
     var imageColor: UIColor {
-        switch self {
+        switch weatherType {
         case .sunny:
             return .red
         case .rainy:
@@ -61,4 +74,5 @@ private extension WeatherType {
             return .gray
         }
     }
+    
 }

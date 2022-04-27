@@ -9,13 +9,16 @@ import Foundation
 import YumemiWeather
 
 protocol WeatherUseCaseProtocol {
-    func fetchWeather() throws -> WeatherType
+    func fetchWeather() throws -> Weather
 }
 
 enum WeatherFetchError: LocalizedError {
+    case failedConversionJson
     case apiError(YumemiWeatherError)
     var errorDescription: String? {
         switch self {
+        case .failedConversionJson:
+            return "JSONの変換に失敗しました。"
         case .apiError(let error):
             switch error {
             case .invalidParameterError:
@@ -28,13 +31,22 @@ enum WeatherFetchError: LocalizedError {
 }
 
 final class WeatherUseCase: WeatherUseCaseProtocol {
-
-    func fetchWeather() throws -> WeatherType {
+    
+    func fetchWeather() throws -> Weather {
         do {
-            let fetchedYumemiWeather = try YumemiWeather.fetchWeather(at: "tokyo")
-            guard let weather = WeatherType(rawValue: fetchedYumemiWeather) else {
-                fatalError("想定外の天気が発生しました。")
+            let sampleJson = """
+                             {
+                                "area": "tokyo",
+                                "date": "2022-04-027T12:10:00+09:00"
+                             }
+                             """
+            let fetchedJson = try YumemiWeather.fetchWeather(sampleJson)
+            guard let fetchedJsonData = fetchedJson.data(using: .utf8) else {
+                throw WeatherFetchError.failedConversionJson
             }
+            let decoder = JSONDecoder()
+            decoder.keyDecodingStrategy = .convertFromSnakeCase
+            let weather = try decoder.decode(Weather.self, from: fetchedJsonData)
             return weather
         } catch let error as YumemiWeatherError {
             throw WeatherFetchError.apiError(error)
