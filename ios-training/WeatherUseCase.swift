@@ -33,11 +33,15 @@ enum WeatherFetchError: Error {
 final class WeatherUseCase: WeatherUseCaseProtocol {
 
     func fetchWeather() throws -> WeatherType {
-        let fetchedYumemiWeather = try YumemiWeather.fetchWeather(at: "tokyo")
-        guard let weather = WeatherType(rawValue: fetchedYumemiWeather) else {
-            throw WeatherFetchError.notFound
+        do {
+            let fetchedYumemiWeather = try YumemiWeather.fetchWeather(at: "tokyo")
+            guard let weather = WeatherType(rawValue: fetchedYumemiWeather) else {
+                throw WeatherFetchError.notFound
+            }
+            return weather
+        } catch let error as YumemiWeatherError {
+            throw WeatherFetchError.apiError(error)
         }
-        return weather
     }
     
 }
