@@ -14,6 +14,12 @@ protocol WeatherUseCaseProtocol {
 
 enum WeatherFetchError: Error {
     case notFound
+    var errorText: String {
+        switch self {
+        case .notFound:
+            return "天気が見つかりませんでした。"
+        }
+    }
 }
 
 final class WeatherUseCase: WeatherUseCaseProtocol {
