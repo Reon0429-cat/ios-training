@@ -14,10 +14,18 @@ protocol WeatherUseCaseProtocol {
 
 enum WeatherFetchError: Error {
     case notFound
+    case apiError(YumemiWeatherError)
     var errorText: String {
         switch self {
         case .notFound:
             return "天気が見つかりませんでした。"
+        case .apiError(let error):
+            switch error {
+            case .invalidParameterError:
+                return "無効なパラメータエラーが発生しました。"
+            case .unknownError:
+                return "予期しないエラーが発生しました。"
+            }
         }
     }
 }
