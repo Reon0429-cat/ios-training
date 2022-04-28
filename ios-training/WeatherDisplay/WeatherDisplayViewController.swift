@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import YumemiWeather
 
 final class WeatherDisplayViewController: UIViewController {
     
@@ -30,8 +31,15 @@ final class WeatherDisplayViewController: UIViewController {
             weatherImageView.tintColor = weather.imageColor
         } catch let error as WeatherFetchError {
             presentErrorAlert(title: "エラーが発生しました。\(error.errorText)")
+        } catch let error as YumemiWeatherError {
+            switch error {
+            case .invalidParameterError:
+                presentErrorAlert(title: "無効なパラメーターエラーが発生しました。\(error)")
+            case .unknownError:
+                presentErrorAlert(title: "不明なエラーが発生しました。\(error)")
+            }
         } catch {
-            presentErrorAlert(title: "エラーが発生しました。\(error)")
+            presentErrorAlert(title: "予期しないエラーが発生しました。")
         }
     }
     
