@@ -17,7 +17,6 @@ enum WeatherFetchError: LocalizedError {
     case failedConvertDataToJson
     case failedEncoding
     case failedDecoding
-    case failedFetchingWeather
     case apiError(YumemiWeatherError)
     var errorDescription: String? {
         switch self {
@@ -29,12 +28,10 @@ enum WeatherFetchError: LocalizedError {
             return "エンコードに失敗しました。"
         case .failedDecoding:
             return "デコードに失敗しました。"
-        case .failedFetchingWeather:
-            return "天気の取得に失敗しました。"
         case .apiError(let error):
             switch error {
             case .invalidParameterError:
-                return "無効なパラメータエラーが発生しました。"
+                return "無効なパラメーターエラーが発生しました。"
             case .unknownError:
                 return "予期しないエラーが発生しました。"
             }
@@ -45,19 +42,17 @@ enum WeatherFetchError: LocalizedError {
 final class WeatherUseCase: WeatherUseCaseProtocol {
     
     func fetchWeather() throws -> Weather {
+        let weatherRequest = WeatherRequest(area: "tokyo", date: Date())
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .iso8601
+        guard let requestData = try? encoder.encode(weatherRequest) else {
+            throw WeatherFetchError.failedEncoding
+        }
+        guard let jsonString = String(data: requestData, encoding: .utf8) else {
+            throw WeatherFetchError.failedConvertDataToJson
+        }
         do {
-            let weatherRequest = WeatherRequest(area: "tokyo", date: Date())
-            let encoder = JSONEncoder()
-            encoder.dateEncodingStrategy = .iso8601
-            guard let requestData = try? encoder.encode(weatherRequest) else {
-                throw WeatherFetchError.failedEncoding
-            }
-            guard let jsonString = String(data: requestData, encoding: .utf8) else {
-                throw WeatherFetchError.failedConvertDataToJson
-            }
-            guard let fetchedJson = try? YumemiWeather.fetchWeather(jsonString) else {
-                throw WeatherFetchError.failedFetchingWeather
-            }
+            let fetchedJson = try YumemiWeather.fetchWeather(jsonString)
             guard let fetchedJsonData = fetchedJson.data(using: .utf8) else {
                 throw WeatherFetchError.failedConvertJsonToData
             }
