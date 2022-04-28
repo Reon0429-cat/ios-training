@@ -47,10 +47,10 @@ final class WeatherDisplayViewController: UIViewController {
     
     static func instantiate() -> WeatherDisplayViewController {
         let weatherDisplayStoryboard = UIStoryboard(name: "WeatherDisplay", bundle: nil)
-        let weatherDisplayVC = weatherDisplayStoryboard.instantiateViewController(
+        let viewController = weatherDisplayStoryboard.instantiateViewController(
             withIdentifier: String(describing: WeatherDisplayViewController.self)
         ) as! WeatherDisplayViewController
-        return weatherDisplayVC
+        return viewController
     }
     
 }

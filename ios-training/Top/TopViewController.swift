@@ -11,13 +11,13 @@ final class TopViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        presentWeatherDisplayVC()
+        presentWeatherDisplay()
     }
     
-    private func presentWeatherDisplayVC() {
-        let weatherDisplayVC = WeatherDisplayViewController.instantiate()
-        weatherDisplayVC.modalPresentationStyle = .fullScreen
-        present(weatherDisplayVC, animated: true)
+    private func presentWeatherDisplay() {
+        let viewController = WeatherDisplayViewController.instantiate()
+        viewController.modalPresentationStyle = .fullScreen
+        present(viewController, animated: true)
     }
     
 }
