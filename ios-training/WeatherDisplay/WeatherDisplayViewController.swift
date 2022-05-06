@@ -29,7 +29,8 @@ final class WeatherDisplayViewController: UIViewController {
             weatherImageView.image = UIImage(named: weather.imageName)
             weatherImageView.tintColor = weather.imageColor
         } catch let error as WeatherFetchError {
-            presentErrorAlert(title: "エラーが発生しました。\(error.errorText)")
+            let errorDescription = error.errorDescription ?? ""
+            presentErrorAlert(title: "エラーが発生しました。\(errorDescription)")
         } catch {
             presentErrorAlert(title: "予期しないエラーが発生しました。")
         }

@@ -12,9 +12,9 @@ protocol WeatherUseCaseProtocol {
     func fetchWeather() throws -> WeatherType
 }
 
-enum WeatherFetchError: Error {
+enum WeatherFetchError: LocalizedError {
     case apiError(YumemiWeatherError)
-    var errorText: String {
+    var errorDescription: String? {
         switch self {
         case .apiError(let error):
             switch error {
