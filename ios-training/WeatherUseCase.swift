@@ -13,12 +13,9 @@ protocol WeatherUseCaseProtocol {
 }
 
 enum WeatherFetchError: Error {
-    case notFound
     case apiError(YumemiWeatherError)
     var errorText: String {
         switch self {
-        case .notFound:
-            return "天気が見つかりませんでした。"
         case .apiError(let error):
             switch error {
             case .invalidParameterError:
@@ -36,7 +33,7 @@ final class WeatherUseCase: WeatherUseCaseProtocol {
         do {
             let fetchedYumemiWeather = try YumemiWeather.fetchWeather(at: "tokyo")
             guard let weather = WeatherType(rawValue: fetchedYumemiWeather) else {
-                throw WeatherFetchError.notFound
+                fatalError("想定外の天気が発生しました。")
             }
             return weather
         } catch let error as YumemiWeatherError {
