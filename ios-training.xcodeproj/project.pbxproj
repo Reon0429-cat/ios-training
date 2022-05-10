@@ -185,6 +185,7 @@
 			isa = PBXGroup;
 			children = (
 				690C850F2812754A00914156 /* WeatherUseCase.swift */,
+				698D10F5282A3CD300E1794C /* WeatherUseCaseStub.swift */,
 			);
 			path = UseCases;
 			sourceTree = "<group>";
