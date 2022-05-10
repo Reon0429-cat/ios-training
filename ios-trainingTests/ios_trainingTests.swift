@@ -19,11 +19,7 @@ final class ios_trainingTests: XCTestCase {
     
     func test天気予報がsunnyだったら画面に晴れ画像が表示されること() throws {
         let sunnyWeather = Weather(maxTemp: 10, minTemp: 0, weather: "sunny")
-        let weatherUseCaseStub = WeatherUseCaseStub(weather: sunnyWeather)
-        weatherDisplayViewController = WeatherDisplayViewController.instantiate(
-            weatherUseCase: weatherUseCaseStub
-        )
-        weatherDisplayViewController.loadViewIfNeeded()
+        setupWeatherDisplay(weather: sunnyWeather)
         guard let image = weatherDisplayViewController.weatherImageView?.image else {
             throw TestError.failedGetWeatherImage
         }
@@ -32,11 +28,7 @@ final class ios_trainingTests: XCTestCase {
     
     func test天気予報がcloudyだったら画面に曇り画像が表示されること() throws {
         let cloudyWeather = Weather(maxTemp: 10, minTemp: 0, weather: "cloudy")
-        let weatherUseCaseStub = WeatherUseCaseStub(weather: cloudyWeather)
-        weatherDisplayViewController = WeatherDisplayViewController.instantiate(
-            weatherUseCase: weatherUseCaseStub
-        )
-        weatherDisplayViewController.loadViewIfNeeded()
+        setupWeatherDisplay(weather: cloudyWeather)
         guard let image = weatherDisplayViewController.weatherImageView?.image else {
             throw TestError.failedGetWeatherImage
         }
@@ -45,11 +37,7 @@ final class ios_trainingTests: XCTestCase {
     
     func test天気予報がrainyだったら画面に雨画像が表示されること() throws {
         let rainyWeather = Weather(maxTemp: 10, minTemp: 0, weather: "rainy")
-        let weatherUseCaseStub = WeatherUseCaseStub(weather: rainyWeather)
-        weatherDisplayViewController = WeatherDisplayViewController.instantiate(
-            weatherUseCase: weatherUseCaseStub
-        )
-        weatherDisplayViewController.loadViewIfNeeded()
+        setupWeatherDisplay(weather: rainyWeather)
         guard let image = weatherDisplayViewController.weatherImageView?.image else {
             throw TestError.failedGetWeatherImage
         }
@@ -58,11 +46,7 @@ final class ios_trainingTests: XCTestCase {
     
     func test天気予報の最高気温がUILabelに反映されること() throws {
         let weather = Weather(maxTemp: 10, minTemp: 0, weather: "sunny")
-        let weatherUseCaseStub = WeatherUseCaseStub(weather: weather)
-        weatherDisplayViewController = WeatherDisplayViewController.instantiate(
-            weatherUseCase: weatherUseCaseStub
-        )
-        weatherDisplayViewController.loadViewIfNeeded()
+        setupWeatherDisplay(weather: weather)
         guard let maxTempText = weatherDisplayViewController.maxTemperatureLabel.text else {
             throw TestError.failedGetMaxWeatherText
         }
@@ -71,15 +55,19 @@ final class ios_trainingTests: XCTestCase {
     
     func test天気予報の最低気温がUILabelに反映されること() throws {
         let weather = Weather(maxTemp: 10, minTemp: 0, weather: "sunny")
+        setupWeatherDisplay(weather: weather)
+        guard let minTempText = weatherDisplayViewController.minTemperatureLabel.text else {
+            throw TestError.failedGetMinWeatherText
+        }
+        XCTAssertEqual(minTempText, "0")
+    }
+    
+    private func setupWeatherDisplay(weather: Weather) {
         let weatherUseCaseStub = WeatherUseCaseStub(weather: weather)
         weatherDisplayViewController = WeatherDisplayViewController.instantiate(
             weatherUseCase: weatherUseCaseStub
         )
         weatherDisplayViewController.loadViewIfNeeded()
-        guard let minTempText = weatherDisplayViewController.minTemperatureLabel.text else {
-            throw TestError.failedGetMinWeatherText
-        }
-        XCTAssertEqual(minTempText, "0")
     }
     
     override func setUpWithError() throws {
