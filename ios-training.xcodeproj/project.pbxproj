@@ -19,6 +19,7 @@
 		690C850628125AA800914156 /* YumemiWeather in Frameworks */ = {isa = PBXBuildFile; productRef = 690C850528125AA800914156 /* YumemiWeather */; };
 		690C850A281272E400914156 /* WeatherType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 690C8509281272E400914156 /* WeatherType.swift */; };
 		690C85102812754A00914156 /* WeatherUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 690C850F2812754A00914156 /* WeatherUseCase.swift */; };
+		690C85182817BD4300914156 /* AlertPresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 690C85172817BD4300914156 /* AlertPresentable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +55,7 @@
 		690C84F72812588D00914156 /* ios_trainingUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ios_trainingUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		690C8509281272E400914156 /* WeatherType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherType.swift; sourceTree = "<group>"; };
 		690C850F2812754A00914156 /* WeatherUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherUseCase.swift; sourceTree = "<group>"; };
+		690C85172817BD4300914156 /* AlertPresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresentable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -105,6 +107,7 @@
 		690C84D32812588A00914156 /* ios-training */ = {
 			isa = PBXGroup;
 			children = (
+				690C85172817BD4300914156 /* AlertPresentable.swift */,
 				690C8509281272E400914156 /* WeatherType.swift */,
 				690C850F2812754A00914156 /* WeatherUseCase.swift */,
 				690C850C281273C800914156 /* WeatherDisplay */,
@@ -284,6 +287,7 @@
 				690C85102812754A00914156 /* WeatherUseCase.swift in Sources */,
 				690C84D52812588A00914156 /* AppDelegate.swift in Sources */,
 				690C84D72812588A00914156 /* SceneDelegate.swift in Sources */,
+				690C85182817BD4300914156 /* AlertPresentable.swift in Sources */,
 				690C850A281272E400914156 /* WeatherType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
