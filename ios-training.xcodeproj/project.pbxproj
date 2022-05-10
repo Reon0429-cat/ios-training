@@ -118,13 +118,12 @@
 			isa = PBXGroup;
 			children = (
 				698D10ED282A2BFF00E1794C /* Models */,
-				698D10EF282A2C3000E1794C /* UseCases */,
-				690C850C281273C800914156 /* WeatherDisplay */,
 				698D10EE282A2C1B00E1794C /* Interfaces */,
-				698D10EC282A2BD000E1794C /* Extensions */,
-				690C84D42812588A00914156 /* AppDelegate.swift */,
-				690C84D62812588A00914156 /* SceneDelegate.swift */,
+				698D10EF282A2C3000E1794C /* UseCases */,
 				690C852328192C8100914156 /* Top */,
+				690C850C281273C800914156 /* WeatherDisplay */,
+				698D10F0282A2E6900E1794C /* Applications */,
+				698D10EC282A2BD000E1794C /* Extensions */,
 				690C84DD2812588D00914156 /* Assets.xcassets */,
 				690C84DF2812588D00914156 /* LaunchScreen.storyboard */,
 				690C84E22812588D00914156 /* Info.plist */,
@@ -199,6 +198,15 @@
 				690C850F2812754A00914156 /* WeatherUseCase.swift */,
 			);
 			path = UseCases;
+			sourceTree = "<group>";
+		};
+		698D10F0282A2E6900E1794C /* Applications */ = {
+			isa = PBXGroup;
+			children = (
+				690C84D42812588A00914156 /* AppDelegate.swift */,
+				690C84D62812588A00914156 /* SceneDelegate.swift */,
+			);
+			path = Applications;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
