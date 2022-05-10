@@ -51,20 +51,21 @@ final class WeatherUseCase: WeatherUseCaseProtocol {
         guard let jsonString = String(data: requestData, encoding: .utf8) else {
             throw WeatherFetchError.failedConvertDataToJson
         }
+        let fetchedJson: String
         do {
-            let fetchedJson = try YumemiWeather.fetchWeather(jsonString)
-            guard let fetchedJsonData = fetchedJson.data(using: .utf8) else {
-                throw WeatherFetchError.failedConvertJsonToData
-            }
-            let decoder = JSONDecoder()
-            decoder.keyDecodingStrategy = .convertFromSnakeCase
-            guard let weather = try? decoder.decode(Weather.self, from: fetchedJsonData) else {
-                throw WeatherFetchError.failedDecoding
-            }
-            return weather
+            fetchedJson = try YumemiWeather.fetchWeather(jsonString)
         } catch let error as YumemiWeatherError {
-            throw WeatherFetchError.apiError(error)
+            throw error
         }
+        guard let fetchedJsonData = fetchedJson.data(using: .utf8) else {
+            throw WeatherFetchError.failedConvertJsonToData
+        }
+        let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        guard let weather = try? decoder.decode(Weather.self, from: fetchedJsonData) else {
+            throw WeatherFetchError.failedDecoding
+        }
+        return weather
     }
     
 }
