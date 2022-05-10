@@ -20,6 +20,12 @@ final class WeatherDisplayViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         displayWeather()
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(displayWeather),
+            name: .displayWeather,
+            object: nil
+        )
     }
     
     @IBAction private func weatherReloadButtonDidTapped(_ sender: Any) {
@@ -30,7 +36,7 @@ final class WeatherDisplayViewController: UIViewController {
         dismiss(animated: true)
     }
     
-    private func displayWeather() {
+    @objc private func displayWeather() {
         do {
             let weather = try weatherUseCse.fetchWeather()
             weatherImageView.image = UIImage(named: weather.imageName)
