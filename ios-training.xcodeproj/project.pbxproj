@@ -24,6 +24,7 @@
 		690C851E28191D2600914156 /* WeatherRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 690C851D28191D2600914156 /* WeatherRequest.swift */; };
 		690C852028192C7100914156 /* Top.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 690C851F28192C7100914156 /* Top.storyboard */; };
 		690C852228192C7C00914156 /* TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 690C852128192C7C00914156 /* TopViewController.swift */; };
+		69BAA404282B801800238787 /* WeatherUseCaseStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BAA403282B801800238787 /* WeatherUseCaseStub.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +65,7 @@
 		690C851D28191D2600914156 /* WeatherRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherRequest.swift; sourceTree = "<group>"; };
 		690C851F28192C7100914156 /* Top.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Top.storyboard; sourceTree = "<group>"; };
 		690C852128192C7C00914156 /* TopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopViewController.swift; sourceTree = "<group>"; };
+		69BAA403282B801800238787 /* WeatherUseCaseStub.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherUseCaseStub.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,7 +133,7 @@
 		690C84EA2812588D00914156 /* ios-trainingTests */ = {
 			isa = PBXGroup;
 			children = (
-				698D10F5282A3CD300E1794C /* WeatherUseCaseStub.swift */,
+				69BAA403282B801800238787 /* WeatherUseCaseStub.swift */,
 				690C84EB2812588D00914156 /* ios_trainingTests.swift */,
 			);
 			path = "ios-trainingTests";
@@ -353,7 +355,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				69B148E0282B7716002800E9 /* WeatherUseCaseStub.swift in Sources */,
+				69BAA404282B801800238787 /* WeatherUseCaseStub.swift in Sources */,
 				690C84EC2812588D00914156 /* ios_trainingTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
