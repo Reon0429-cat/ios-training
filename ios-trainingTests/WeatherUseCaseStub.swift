@@ -6,6 +6,7 @@
 //
 
 import Foundation
+@testable import ios_training
 
 final class WeatherUseCaseStub: WeatherUseCaseProtocol {
     

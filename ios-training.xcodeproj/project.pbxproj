@@ -131,6 +131,7 @@
 		690C84EA2812588D00914156 /* ios-trainingTests */ = {
 			isa = PBXGroup;
 			children = (
+				698D10F5282A3CD300E1794C /* WeatherUseCaseStub.swift */,
 				690C84EB2812588D00914156 /* ios_trainingTests.swift */,
 			);
 			path = "ios-trainingTests";
@@ -185,7 +186,6 @@
 			isa = PBXGroup;
 			children = (
 				690C850F2812754A00914156 /* WeatherUseCase.swift */,
-				698D10F5282A3CD300E1794C /* WeatherUseCaseStub.swift */,
 			);
 			path = UseCases;
 			sourceTree = "<group>";
@@ -353,6 +353,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				69B148E0282B7716002800E9 /* WeatherUseCaseStub.swift in Sources */,
 				690C84EC2812588D00914156 /* ios_trainingTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
