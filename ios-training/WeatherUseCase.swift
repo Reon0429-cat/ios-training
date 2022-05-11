@@ -67,5 +67,5 @@ final class WeatherUseCase: WeatherUseCaseProtocol {
         }
         return weather
     }
-    
+        
 }

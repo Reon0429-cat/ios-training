@@ -13,6 +13,7 @@ final class WeatherDisplayViewController: UIViewController {
     @IBOutlet private weak var maxTemperatureLabel: UILabel!
     @IBOutlet private weak var weatherImageView: UIImageView!
     @IBOutlet private weak var weatherReloadButton: UIButton!
+    @IBOutlet private weak var closeButton: UIButton!
     
     private let weatherUseCse: WeatherUseCaseProtocol = WeatherUseCase()
     
@@ -23,6 +24,10 @@ final class WeatherDisplayViewController: UIViewController {
     
     @IBAction private func weatherReloadButtonDidTapped(_ sender: Any) {
         displayWeather()
+    }
+    
+    @IBAction private func closeButtonDidTapped(_ sender: Any) {
+        dismiss(animated: true)
     }
     
     private func displayWeather() {
@@ -38,6 +43,14 @@ final class WeatherDisplayViewController: UIViewController {
         } catch {
             presentErrorAlert(title: "予期しないエラーが発生しました。")
         }
+    }
+    
+    static func instantiate() -> WeatherDisplayViewController {
+        let weatherDisplayStoryboard = UIStoryboard(name: "WeatherDisplay", bundle: nil)
+        let viewController = weatherDisplayStoryboard.instantiateViewController(
+            withIdentifier: String(describing: WeatherDisplayViewController.self)
+        ) as! WeatherDisplayViewController
+        return viewController
     }
     
 }
