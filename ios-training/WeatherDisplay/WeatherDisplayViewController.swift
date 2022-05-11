@@ -15,7 +15,7 @@ final class WeatherDisplayViewController: UIViewController {
     @IBOutlet private weak var weatherReloadButton: UIButton!
     @IBOutlet private weak var closeButton: UIButton!
     
-    var weatherUseCase: WeatherUseCaseProtocol!
+    private var weatherUseCase: WeatherUseCaseProtocol!
     
     override func viewDidLoad() {
         super.viewDidLoad()
