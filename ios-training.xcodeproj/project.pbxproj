@@ -24,7 +24,6 @@
 		690C851E28191D2600914156 /* WeatherRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 690C851D28191D2600914156 /* WeatherRequest.swift */; };
 		690C852028192C7100914156 /* Top.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 690C851F28192C7100914156 /* Top.storyboard */; };
 		690C852228192C7C00914156 /* TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 690C852128192C7C00914156 /* TopViewController.swift */; };
-		698D10EB2829FCB400E1794C /* Notification.Name-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 698D10EA2829FCB400E1794C /* Notification.Name-Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,7 +64,6 @@
 		690C851D28191D2600914156 /* WeatherRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherRequest.swift; sourceTree = "<group>"; };
 		690C851F28192C7100914156 /* Top.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Top.storyboard; sourceTree = "<group>"; };
 		690C852128192C7C00914156 /* TopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopViewController.swift; sourceTree = "<group>"; };
-		698D10EA2829FCB400E1794C /* Notification.Name-Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification.Name-Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,7 +121,6 @@
 				690C852328192C8100914156 /* Top */,
 				690C850C281273C800914156 /* WeatherDisplay */,
 				698D10F0282A2E6900E1794C /* Applications */,
-				698D10EC282A2BD000E1794C /* Extensions */,
 				690C84DD2812588D00914156 /* Assets.xcassets */,
 				690C84DF2812588D00914156 /* LaunchScreen.storyboard */,
 				690C84E22812588D00914156 /* Info.plist */,
@@ -164,14 +161,6 @@
 				690C852128192C7C00914156 /* TopViewController.swift */,
 			);
 			path = Top;
-			sourceTree = "<group>";
-		};
-		698D10EC282A2BD000E1794C /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				698D10EA2829FCB400E1794C /* Notification.Name-Extension.swift */,
-			);
-			path = Extensions;
 			sourceTree = "<group>";
 		};
 		698D10ED282A2BFF00E1794C /* Models */ = {
@@ -347,7 +336,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				698D10EB2829FCB400E1794C /* Notification.Name-Extension.swift in Sources */,
 				690C851E28191D2600914156 /* WeatherRequest.swift in Sources */,
 				690C84D92812588A00914156 /* WeatherDisplayViewController.swift in Sources */,
 				690C85102812754A00914156 /* WeatherUseCase.swift in Sources */,

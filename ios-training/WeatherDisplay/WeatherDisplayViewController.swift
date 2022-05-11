@@ -23,7 +23,7 @@ final class WeatherDisplayViewController: UIViewController {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(displayWeather),
-            name: .displayWeather,
+            name: UIApplication.willEnterForegroundNotification,
             object: nil
         )
     }
