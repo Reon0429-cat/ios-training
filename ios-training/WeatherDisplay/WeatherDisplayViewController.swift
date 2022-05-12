@@ -18,6 +18,10 @@ final class WeatherDisplayViewController: UIViewController {
     
     private var weatherUseCase: WeatherUseCaseProtocol!
     
+    deinit {
+        print("debug", #function)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         addObserverWillEnterForegroundNotification()
@@ -38,35 +42,7 @@ final class WeatherDisplayViewController: UIViewController {
     
     @objc private func displayWeather() {
         indicatorView.startAnimating()
-        weatherUseCase.fetchWeather { result in
-            do {
-                let weather = try result.get()
-                DispatchQueue.executeMainThread {
-                    self.weatherImageView.image = UIImage(named: weather.imageName)
-                    self.weatherImageView.tintColor = weather.imageColor
-                    self.minTemperatureLabel.text = String(weather.minTemp)
-                    self.maxTemperatureLabel.text = String(weather.maxTemp)
-                    self.indicatorView.stopAnimating()
-                }
-            } catch let error as WeatherFetchError {
-                self.removeObserverWillEnterForegroundNotification()
-                let errorDescription = error.errorDescription ?? ""
-                DispatchQueue.executeMainThread {
-                    self.presentErrorAlert(title: "エラーが発生しました。\(errorDescription)") { _ in
-                        self.addObserverWillEnterForegroundNotification()
-                    }
-                    self.indicatorView.stopAnimating()
-                }
-            } catch {
-                self.removeObserverWillEnterForegroundNotification()
-                DispatchQueue.executeMainThread {
-                    self.presentErrorAlert(title: "予期しないエラーが発生しました。") { _ in
-                        self.addObserverWillEnterForegroundNotification()
-                    }
-                    self.indicatorView.stopAnimating()
-                }
-            }
-        }
+        weatherUseCase.fetchWeather()
     }
     
     static func instantiate(weatherUseCase: WeatherUseCaseProtocol) -> WeatherDisplayViewController {
@@ -93,6 +69,40 @@ final class WeatherDisplayViewController: UIViewController {
             name: UIApplication.willEnterForegroundNotification,
             object: nil
         )
+    }
+    
+}
+
+extension WeatherDisplayViewController: WeatherUseCaseDelegate {
+    
+    func execute(result: Result<Weather, Error>) {
+        do {
+            let weather = try result.get()
+            DispatchQueue.executeMainThread {
+                self.weatherImageView.image = UIImage(named: weather.imageName)
+                self.weatherImageView.tintColor = weather.imageColor
+                self.minTemperatureLabel.text = String(weather.minTemp)
+                self.maxTemperatureLabel.text = String(weather.maxTemp)
+                self.indicatorView.stopAnimating()
+            }
+        } catch let error as WeatherFetchError {
+            self.removeObserverWillEnterForegroundNotification()
+            let errorDescription = error.errorDescription ?? ""
+            DispatchQueue.executeMainThread {
+                self.presentErrorAlert(title: "エラーが発生しました。\(errorDescription)") { _ in
+                    self.addObserverWillEnterForegroundNotification()
+                }
+                self.indicatorView.stopAnimating()
+            }
+        } catch {
+            self.removeObserverWillEnterForegroundNotification()
+            DispatchQueue.executeMainThread {
+                self.presentErrorAlert(title: "予期しないエラーが発生しました。") { _ in
+                    self.addObserverWillEnterForegroundNotification()
+                }
+                self.indicatorView.stopAnimating()
+            }
+        }
     }
     
 }
