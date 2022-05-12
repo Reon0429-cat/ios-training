@@ -24,6 +24,7 @@
 		690C851E28191D2600914156 /* WeatherRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 690C851D28191D2600914156 /* WeatherRequest.swift */; };
 		690C852028192C7100914156 /* Top.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 690C851F28192C7100914156 /* Top.storyboard */; };
 		690C852228192C7C00914156 /* TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 690C852128192C7C00914156 /* TopViewController.swift */; };
+		695A8615282CAD2900637206 /* DispatchQueue+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695A8614282CAD2900637206 /* DispatchQueue+Extension.swift */; };
 		69BAA404282B801800238787 /* WeatherUseCaseStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BAA403282B801800238787 /* WeatherUseCaseStub.swift */; };
 /* End PBXBuildFile section */
 
@@ -65,6 +66,7 @@
 		690C851D28191D2600914156 /* WeatherRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherRequest.swift; sourceTree = "<group>"; };
 		690C851F28192C7100914156 /* Top.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Top.storyboard; sourceTree = "<group>"; };
 		690C852128192C7C00914156 /* TopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopViewController.swift; sourceTree = "<group>"; };
+		695A8614282CAD2900637206 /* DispatchQueue+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DispatchQueue+Extension.swift"; sourceTree = "<group>"; };
 		69BAA403282B801800238787 /* WeatherUseCaseStub.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherUseCaseStub.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -123,6 +125,7 @@
 				690C852328192C8100914156 /* Top */,
 				690C850C281273C800914156 /* WeatherDisplay */,
 				698D10F0282A2E6900E1794C /* Applications */,
+				695A8613282CAD1900637206 /* Extensions */,
 				690C84DD2812588D00914156 /* Assets.xcassets */,
 				690C84DF2812588D00914156 /* LaunchScreen.storyboard */,
 				690C84E22812588D00914156 /* Info.plist */,
@@ -164,6 +167,14 @@
 				690C852128192C7C00914156 /* TopViewController.swift */,
 			);
 			path = Top;
+			sourceTree = "<group>";
+		};
+		695A8613282CAD1900637206 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				695A8614282CAD2900637206 /* DispatchQueue+Extension.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		698D10ED282A2BFF00E1794C /* Models */ = {
@@ -340,6 +351,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				690C851E28191D2600914156 /* WeatherRequest.swift in Sources */,
+				695A8615282CAD2900637206 /* DispatchQueue+Extension.swift in Sources */,
 				690C84D92812588A00914156 /* WeatherDisplayViewController.swift in Sources */,
 				690C85102812754A00914156 /* WeatherUseCase.swift in Sources */,
 				690C851C2818DC6700914156 /* WeatherType.swift in Sources */,
@@ -533,6 +545,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Top;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -561,6 +574,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Top;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

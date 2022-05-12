@@ -38,10 +38,10 @@ final class WeatherDisplayViewController: UIViewController {
     
     @objc private func displayWeather() {
         indicatorView.startAnimating()
-        DispatchQueue.global().async {
+        weatherUseCase.fetchWeather { result in
             do {
-                let weather = try self.weatherUseCase.fetchWeather()
-                DispatchQueue.main.async {
+                let weather = try result.get()
+                DispatchQueue.changeToMainThread {
                     self.weatherImageView.image = UIImage(named: weather.imageName)
                     self.weatherImageView.tintColor = weather.imageColor
                     self.minTemperatureLabel.text = String(weather.minTemp)
@@ -51,7 +51,7 @@ final class WeatherDisplayViewController: UIViewController {
             } catch let error as WeatherFetchError {
                 self.removeObserverWillEnterForegroundNotification()
                 let errorDescription = error.errorDescription ?? ""
-                DispatchQueue.main.async {
+                DispatchQueue.changeToMainThread {
                     self.presentErrorAlert(title: "エラーが発生しました。\(errorDescription)") { _ in
                         self.addObserverWillEnterForegroundNotification()
                     }
@@ -59,7 +59,7 @@ final class WeatherDisplayViewController: UIViewController {
                 }
             } catch {
                 self.removeObserverWillEnterForegroundNotification()
-                DispatchQueue.main.async {
+                DispatchQueue.changeToMainThread {
                     self.presentErrorAlert(title: "予期しないエラーが発生しました。") { _ in
                         self.addObserverWillEnterForegroundNotification()
                     }
