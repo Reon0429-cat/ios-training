@@ -20,7 +20,7 @@ final class WeatherDisplayViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         displayWeather()
-        addObserver(name: UIApplication.willEnterForegroundNotification)
+        addObserverWillEnterForegroundNotification()
     }
     
     @IBAction private func weatherReloadButtonDidTapped(_ sender: Any) {
@@ -39,15 +39,15 @@ final class WeatherDisplayViewController: UIViewController {
             minTemperatureLabel.text = String(weather.minTemp)
             maxTemperatureLabel.text = String(weather.maxTemp)
         } catch let error as WeatherFetchError {
-            removeObserver(name: UIApplication.willEnterForegroundNotification)
+            removeObserverWillEnterForegroundNotification()
             let errorDescription = error.errorDescription ?? ""
             presentErrorAlert(title: "エラーが発生しました。\(errorDescription)") { _ in
-                self.addObserver(name: UIApplication.willEnterForegroundNotification)
+                self.addObserverWillEnterForegroundNotification()
             }
         } catch {
-            removeObserver(name: UIApplication.willEnterForegroundNotification)
+            removeObserverWillEnterForegroundNotification()
             presentErrorAlert(title: "予期しないエラーが発生しました。") { _ in
-                self.addObserver(name: UIApplication.willEnterForegroundNotification)
+                self.addObserverWillEnterForegroundNotification()
             }
         }
     }
@@ -60,16 +60,16 @@ final class WeatherDisplayViewController: UIViewController {
         return viewController
     }
     
-    private func addObserver(name: NSNotification.Name?) {
+    private func addObserverWillEnterForegroundNotification() {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(displayWeather),
-            name: name,
+            name: UIApplication.willEnterForegroundNotification,
             object: nil
         )
     }
     
-    private func removeObserver(name: NSNotification.Name?) {
+    private func removeObserverWillEnterForegroundNotification() {
         NotificationCenter.default.removeObserver(
             self,
             name: UIApplication.willEnterForegroundNotification,
