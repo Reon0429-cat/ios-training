@@ -52,6 +52,7 @@ final class ios_trainingTests: XCTestCase {
         weatherDisplayViewController = WeatherDisplayViewController.instantiate(
             weatherUseCase: weatherUseCaseStub
         )
+        weatherUseCaseStub.delegate = weatherDisplayViewController
         weatherDisplayViewController.loadViewIfNeeded()
         waitForAppearExecuted()
     }
