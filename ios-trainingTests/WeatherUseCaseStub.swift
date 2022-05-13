@@ -10,15 +10,14 @@ import Foundation
 
 final class WeatherUseCaseStub: WeatherUseCaseProtocol {
     
-    weak var delegate: WeatherUseCaseDelegate?
     let weather: Weather
     
     init(weather: Weather) {
         self.weather = weather
     }
     
-    func fetchWeather() {
-        delegate?.didFetchedWeather(weather: weather)
+    func fetchWeather(completion: ResultHandler<Weather>?) {
+        completion?(.success(weather))
     }
 
 }
