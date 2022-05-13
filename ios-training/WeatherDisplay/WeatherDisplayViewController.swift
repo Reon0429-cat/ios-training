@@ -19,8 +19,12 @@ final class WeatherDisplayViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        displayWeather()
         addObserverWillEnterForegroundNotification()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        displayWeather()
     }
     
     @IBAction private func weatherReloadButtonDidTapped(_ sender: Any) {
