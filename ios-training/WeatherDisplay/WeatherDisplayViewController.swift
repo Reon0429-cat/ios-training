@@ -14,6 +14,7 @@ final class WeatherDisplayViewController: UIViewController {
     @IBOutlet weak var weatherImageView: UIImageView!
     @IBOutlet private weak var weatherReloadButton: UIButton!
     @IBOutlet private weak var closeButton: UIButton!
+    @IBOutlet private weak var indicatorView: UIActivityIndicatorView!
     
     private var weatherUseCase: WeatherUseCaseProtocol!
     
@@ -36,22 +37,34 @@ final class WeatherDisplayViewController: UIViewController {
     }
     
     @objc private func displayWeather() {
-        do {
-            let weather = try weatherUseCase.fetchWeather()
-            weatherImageView.image = UIImage(named: weather.imageName)
-            weatherImageView.tintColor = weather.imageColor
-            minTemperatureLabel.text = String(weather.minTemp)
-            maxTemperatureLabel.text = String(weather.maxTemp)
-        } catch let error as WeatherFetchError {
-            removeObserverWillEnterForegroundNotification()
-            let errorDescription = error.errorDescription ?? ""
-            presentErrorAlert(title: "エラーが発生しました。\(errorDescription)") { _ in
-                self.addObserverWillEnterForegroundNotification()
-            }
-        } catch {
-            removeObserverWillEnterForegroundNotification()
-            presentErrorAlert(title: "予期しないエラーが発生しました。") { _ in
-                self.addObserverWillEnterForegroundNotification()
+        indicatorView.startAnimating()
+        DispatchQueue.global().async {
+            do {
+                let weather = try self.weatherUseCase.fetchWeather()
+                DispatchQueue.main.async {
+                    self.weatherImageView.image = UIImage(named: weather.imageName)
+                    self.weatherImageView.tintColor = weather.imageColor
+                    self.minTemperatureLabel.text = String(weather.minTemp)
+                    self.maxTemperatureLabel.text = String(weather.maxTemp)
+                    self.indicatorView.stopAnimating()
+                }
+            } catch let error as WeatherFetchError {
+                self.removeObserverWillEnterForegroundNotification()
+                let errorDescription = error.errorDescription ?? ""
+                DispatchQueue.main.async {
+                    self.presentErrorAlert(title: "エラーが発生しました。\(errorDescription)") { _ in
+                        self.addObserverWillEnterForegroundNotification()
+                    }
+                    self.indicatorView.stopAnimating()
+                }
+            } catch {
+                self.removeObserverWillEnterForegroundNotification()
+                DispatchQueue.main.async {
+                    self.presentErrorAlert(title: "予期しないエラーが発生しました。") { _ in
+                        self.addObserverWillEnterForegroundNotification()
+                    }
+                    self.indicatorView.stopAnimating()
+                }
             }
         }
     }
