@@ -16,35 +16,45 @@ final class ios_trainingTests: XCTestCase {
         let sunnyWeather = Weather(maxTemp: 10, minTemp: 0, weather: "sunny")
         setupWeatherDisplay(weather: sunnyWeather)
         let image = weatherDisplayViewController.weatherImageView!.image
-        XCTAssertEqual(image, UIImage(named: "sunny"))
+        DispatchQueue.main.async {
+            XCTAssertEqual(image, UIImage(named: "sunny"))
+        }
     }
-    
+
     func test天気予報がcloudyだったら画面に曇り画像が表示されること() throws {
         let cloudyWeather = Weather(maxTemp: 10, minTemp: 0, weather: "cloudy")
         setupWeatherDisplay(weather: cloudyWeather)
         let image = weatherDisplayViewController.weatherImageView!.image
-        XCTAssertEqual(image, UIImage(named: "cloudy"))
+        DispatchQueue.main.async {
+            XCTAssertEqual(image, UIImage(named: "cloudy"))
+        }
     }
-    
+
     func test天気予報がrainyだったら画面に雨画像が表示されること() throws {
         let rainyWeather = Weather(maxTemp: 10, minTemp: 0, weather: "rainy")
         setupWeatherDisplay(weather: rainyWeather)
         let image = weatherDisplayViewController.weatherImageView!.image
-        XCTAssertEqual(image, UIImage(named: "rainy"))
+        DispatchQueue.main.async {
+            XCTAssertEqual(image, UIImage(named: "rainy"))
+        }
     }
-    
+
     func test天気予報の最高気温がUILabelに反映されること() throws {
         let weather = Weather(maxTemp: 10, minTemp: 0, weather: "sunny")
         setupWeatherDisplay(weather: weather)
         let maxTempText = weatherDisplayViewController.maxTemperatureLabel.text
-        XCTAssertEqual(maxTempText, "10")
+        DispatchQueue.main.async {
+            XCTAssertEqual(maxTempText, "10")
+        }
     }
     
     func test天気予報の最低気温がUILabelに反映されること() throws {
         let weather = Weather(maxTemp: 10, minTemp: 0, weather: "sunny")
         setupWeatherDisplay(weather: weather)
         let minTempText = weatherDisplayViewController.minTemperatureLabel.text
-        XCTAssertEqual(minTempText, "0")
+        DispatchQueue.main.async {
+            XCTAssertEqual(minTempText, "0")
+        }
     }
     
     private func setupWeatherDisplay(weather: Weather) {

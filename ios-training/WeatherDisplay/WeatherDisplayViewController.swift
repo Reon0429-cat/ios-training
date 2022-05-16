@@ -52,8 +52,8 @@ final class WeatherDisplayViewController: UIViewController {
             let weather = try await weatherUseCase.fetchWeather()
             DispatchQueue.executeMainThread {
                 Task {
-                    self.weatherImageView.image = UIImage(named: await weather.imageName)
-                    self.weatherImageView.tintColor = await weather.imageColor
+                    self.weatherImageView.image = UIImage(named: weather.imageName)
+                    self.weatherImageView.tintColor = weather.imageColor
                     self.minTemperatureLabel.text = String(weather.minTemp)
                     self.maxTemperatureLabel.text = String(weather.maxTemp)
                     self.indicatorView.stopAnimating()

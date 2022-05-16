@@ -7,7 +7,7 @@
 
 import Foundation
 
-actor Weather: Decodable {
+struct Weather: Decodable {
     let maxTemp: Int
     let minTemp: Int
     let weather: String

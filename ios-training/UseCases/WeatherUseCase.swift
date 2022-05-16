@@ -54,7 +54,7 @@ final class WeatherUseCase: WeatherUseCaseProtocol {
             }
             let fetchedJson: String
             do {
-                fetchedJson = try YumemiWeather.syncFetchWeather(jsonString)
+                fetchedJson = try await YumemiWeather.asyncFetchWeather(jsonString)
             } catch {
                 throw error
             }
