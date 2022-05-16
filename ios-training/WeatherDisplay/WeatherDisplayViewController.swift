@@ -19,6 +19,11 @@ final class WeatherDisplayViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        addObserverWillEnterForegroundNotification()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         displayWeather()
     }
     
@@ -30,7 +35,7 @@ final class WeatherDisplayViewController: UIViewController {
         dismiss(animated: true)
     }
     
-    private func displayWeather() {
+    @objc private func displayWeather() {
         do {
             let weather = try weatherUseCse.fetchWeather()
             weatherImageView.image = UIImage(named: weather.imageName)
@@ -38,10 +43,16 @@ final class WeatherDisplayViewController: UIViewController {
             minTemperatureLabel.text = String(weather.minTemp)
             maxTemperatureLabel.text = String(weather.maxTemp)
         } catch let error as WeatherFetchError {
+            removeObserverWillEnterForegroundNotification()
             let errorDescription = error.errorDescription ?? ""
-            presentErrorAlert(title: "エラーが発生しました。\(errorDescription)")
+            presentErrorAlert(title: "エラーが発生しました。\(errorDescription)") { _ in
+                self.addObserverWillEnterForegroundNotification()
+            }
         } catch {
-            presentErrorAlert(title: "予期しないエラーが発生しました。")
+            removeObserverWillEnterForegroundNotification()
+            presentErrorAlert(title: "予期しないエラーが発生しました。") { _ in
+                self.addObserverWillEnterForegroundNotification()
+            }
         }
     }
     
@@ -51,6 +62,23 @@ final class WeatherDisplayViewController: UIViewController {
             withIdentifier: String(describing: WeatherDisplayViewController.self)
         ) as! WeatherDisplayViewController
         return viewController
+    }
+    
+    private func addObserverWillEnterForegroundNotification() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(displayWeather),
+            name: UIApplication.willEnterForegroundNotification,
+            object: nil
+        )
+    }
+    
+    private func removeObserverWillEnterForegroundNotification() {
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIApplication.willEnterForegroundNotification,
+            object: nil
+        )
     }
     
 }
