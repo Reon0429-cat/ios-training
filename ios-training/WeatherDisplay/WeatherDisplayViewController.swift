@@ -75,17 +75,18 @@ final class WeatherDisplayViewController: UIViewController {
 
 extension WeatherDisplayViewController: WeatherUseCaseDelegate {
     
-    func didFetchedWeather(result: Result<Weather, Error>) {
-        do {
-            let weather = try result.get()
-            DispatchQueue.executeMainThread {
-                self.weatherImageView.image = UIImage(named: weather.imageName)
-                self.weatherImageView.tintColor = weather.imageColor
-                self.minTemperatureLabel.text = String(weather.minTemp)
-                self.maxTemperatureLabel.text = String(weather.maxTemp)
-                self.indicatorView.stopAnimating()
-            }
-        } catch let error as WeatherFetchError {
+    func didFetchedWeather(weather: Weather) {
+        DispatchQueue.executeMainThread {
+            self.weatherImageView.image = UIImage(named: weather.imageName)
+            self.weatherImageView.tintColor = weather.imageColor
+            self.minTemperatureLabel.text = String(weather.minTemp)
+            self.maxTemperatureLabel.text = String(weather.maxTemp)
+            self.indicatorView.stopAnimating()
+        }
+    }
+    
+    func didFailedWithError(error: Error) {
+        if let error = error as? WeatherFetchError {
             self.removeObserverWillEnterForegroundNotification()
             let errorDescription = error.errorDescription ?? ""
             DispatchQueue.executeMainThread {
@@ -94,7 +95,7 @@ extension WeatherDisplayViewController: WeatherUseCaseDelegate {
                 }
                 self.indicatorView.stopAnimating()
             }
-        } catch {
+        } else {
             self.removeObserverWillEnterForegroundNotification()
             DispatchQueue.executeMainThread {
                 self.presentErrorAlert(title: "予期しないエラーが発生しました。") { _ in
