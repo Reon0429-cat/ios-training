@@ -75,7 +75,7 @@ final class WeatherDisplayViewController: UIViewController {
 
 extension WeatherDisplayViewController: WeatherUseCaseDelegate {
     
-    func execute(result: Result<Weather, Error>) {
+    func didFetchedWeather(result: Result<Weather, Error>) {
         do {
             let weather = try result.get()
             DispatchQueue.executeMainThread {
