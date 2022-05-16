@@ -8,29 +8,51 @@
 import XCTest
 @testable import ios_training
 
-class ios_trainingTests: XCTestCase {
-
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+final class ios_trainingTests: XCTestCase {
+    
+    private var weatherDisplayViewController: WeatherDisplayViewController!
+    
+    func test天気予報がsunnyだったら画面に晴れ画像が表示されること() throws {
+        let sunnyWeather = Weather(maxTemp: 10, minTemp: 0, weather: "sunny")
+        setupWeatherDisplay(weather: sunnyWeather)
+        let image = weatherDisplayViewController.weatherImageView!.image
+        XCTAssertEqual(image, UIImage(named: "sunny"))
     }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    
+    func test天気予報がcloudyだったら画面に曇り画像が表示されること() throws {
+        let cloudyWeather = Weather(maxTemp: 10, minTemp: 0, weather: "cloudy")
+        setupWeatherDisplay(weather: cloudyWeather)
+        let image = weatherDisplayViewController.weatherImageView!.image
+        XCTAssertEqual(image, UIImage(named: "cloudy"))
     }
-
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
+    
+    func test天気予報がrainyだったら画面に雨画像が表示されること() throws {
+        let rainyWeather = Weather(maxTemp: 10, minTemp: 0, weather: "rainy")
+        setupWeatherDisplay(weather: rainyWeather)
+        let image = weatherDisplayViewController.weatherImageView!.image
+        XCTAssertEqual(image, UIImage(named: "rainy"))
     }
-
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    
+    func test天気予報の最高気温がUILabelに反映されること() throws {
+        let weather = Weather(maxTemp: 10, minTemp: 0, weather: "sunny")
+        setupWeatherDisplay(weather: weather)
+        let maxTempText = weatherDisplayViewController.maxTemperatureLabel.text
+        XCTAssertEqual(maxTempText, "10")
     }
-
+    
+    func test天気予報の最低気温がUILabelに反映されること() throws {
+        let weather = Weather(maxTemp: 10, minTemp: 0, weather: "sunny")
+        setupWeatherDisplay(weather: weather)
+        let minTempText = weatherDisplayViewController.minTemperatureLabel.text
+        XCTAssertEqual(minTempText, "0")
+    }
+    
+    private func setupWeatherDisplay(weather: Weather) {
+        let weatherUseCaseStub = WeatherUseCaseStub(weather: weather)
+        weatherDisplayViewController = WeatherDisplayViewController.instantiate(
+            weatherUseCase: weatherUseCaseStub
+        )
+        weatherDisplayViewController.loadViewIfNeeded()
+    }
+    
 }

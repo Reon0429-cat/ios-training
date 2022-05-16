@@ -9,13 +9,13 @@ import UIKit
 
 final class WeatherDisplayViewController: UIViewController {
     
-    @IBOutlet private weak var minTemperatureLabel: UILabel!
-    @IBOutlet private weak var maxTemperatureLabel: UILabel!
-    @IBOutlet private weak var weatherImageView: UIImageView!
+    @IBOutlet weak var minTemperatureLabel: UILabel!
+    @IBOutlet weak var maxTemperatureLabel: UILabel!
+    @IBOutlet weak var weatherImageView: UIImageView!
     @IBOutlet private weak var weatherReloadButton: UIButton!
     @IBOutlet private weak var closeButton: UIButton!
     
-    private let weatherUseCse: WeatherUseCaseProtocol = WeatherUseCase()
+    private var weatherUseCase: WeatherUseCaseProtocol!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,7 +37,7 @@ final class WeatherDisplayViewController: UIViewController {
     
     @objc private func displayWeather() {
         do {
-            let weather = try weatherUseCse.fetchWeather()
+            let weather = try weatherUseCase.fetchWeather()
             weatherImageView.image = UIImage(named: weather.imageName)
             weatherImageView.tintColor = weather.imageColor
             minTemperatureLabel.text = String(weather.minTemp)
@@ -56,11 +56,12 @@ final class WeatherDisplayViewController: UIViewController {
         }
     }
     
-    static func instantiate() -> WeatherDisplayViewController {
+    static func instantiate(weatherUseCase: WeatherUseCaseProtocol) -> WeatherDisplayViewController {
         let weatherDisplayStoryboard = UIStoryboard(name: "WeatherDisplay", bundle: nil)
         let viewController = weatherDisplayStoryboard.instantiateViewController(
             withIdentifier: String(describing: WeatherDisplayViewController.self)
         ) as! WeatherDisplayViewController
+        viewController.weatherUseCase = weatherUseCase
         return viewController
     }
     
