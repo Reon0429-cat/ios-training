@@ -24,7 +24,9 @@ final class WeatherDisplayViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        addObserverWillEnterForegroundNotification()
+        Task {
+            await self.addObserverWillEnterForegroundNotification()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -62,7 +64,9 @@ final class WeatherDisplayViewController: UIViewController {
             let errorDescription = error.errorDescription ?? ""
             DispatchQueue.executeMainThread {
                 self.presentErrorAlert(title: "エラーが発生しました。\(errorDescription)") { _ in
-                    self.addObserverWillEnterForegroundNotification()
+                    Task {
+                        await self.addObserverWillEnterForegroundNotification()
+                    }
                 }
                 self.indicatorView.stopAnimating()
             }
@@ -70,7 +74,9 @@ final class WeatherDisplayViewController: UIViewController {
             self.removeObserverWillEnterForegroundNotification()
             DispatchQueue.executeMainThread {
                 self.presentErrorAlert(title: "予期しないエラーが発生しました。") { _ in
-                    self.addObserverWillEnterForegroundNotification()
+                    Task {
+                        await self.addObserverWillEnterForegroundNotification()
+                    }
                 }
                 self.indicatorView.stopAnimating()
             }
@@ -86,13 +92,10 @@ final class WeatherDisplayViewController: UIViewController {
         return viewController
     }
     
-    private func addObserverWillEnterForegroundNotification() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(displayWeather),
-            name: UIApplication.willEnterForegroundNotification,
-            object: nil
-        )
+    private func addObserverWillEnterForegroundNotification() async {
+        for await _ in NotificationCenter.default.notifications(named: UIApplication.willEnterForegroundNotification) {
+            await displayWeather()
+        }
     }
     
     private func removeObserverWillEnterForegroundNotification() {
