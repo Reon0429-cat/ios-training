@@ -9,7 +9,7 @@ import Foundation
 import YumemiWeather
 
 protocol WeatherUseCaseProtocol {
-    func fetchWeather() async throws -> Weather
+    func fetchWeatherItems() async throws -> [WeatherItem]
 }
 
 enum WeatherFetchError: LocalizedError {
@@ -41,8 +41,8 @@ enum WeatherFetchError: LocalizedError {
 
 final class WeatherUseCase: WeatherUseCaseProtocol {
     
-    func fetchWeather() async throws -> Weather {
-        let weatherRequest = WeatherRequest(area: "tokyo", date: Date())
+    func fetchWeatherItems() async throws -> [WeatherItem] {
+        let weatherRequest = WeatherRequest(areas: ["Tokyo"], date: Date())
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = .iso8601
         guard let requestData = try? encoder.encode(weatherRequest) else {
@@ -57,10 +57,10 @@ final class WeatherUseCase: WeatherUseCaseProtocol {
         }
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
-        guard let weather = try? decoder.decode(Weather.self, from: fetchedJsonData) else {
+        guard let weatherItems = try? decoder.decode([WeatherItem].self, from: fetchedJsonData) else {
             throw WeatherFetchError.failedDecoding
         }
-        return weather
+        return weatherItems
     }
     
 }

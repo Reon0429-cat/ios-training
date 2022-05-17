@@ -7,6 +7,11 @@
 
 import Foundation
 
+struct WeatherItem: Decodable {
+    let info: Weather
+    let area: String
+}
+
 struct Weather: Decodable {
     let maxTemp: Int
     let minTemp: Int

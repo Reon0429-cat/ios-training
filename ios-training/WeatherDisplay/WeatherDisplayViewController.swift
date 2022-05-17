@@ -9,12 +9,11 @@ import UIKit
 
 final class WeatherDisplayViewController: UIViewController {
     
-    @IBOutlet weak var minTemperatureLabel: UILabel!
-    @IBOutlet weak var maxTemperatureLabel: UILabel!
-    @IBOutlet weak var weatherImageView: UIImageView!
+    @IBOutlet private weak var minTemperatureLabel: UILabel!
+    @IBOutlet private weak var maxTemperatureLabel: UILabel!
+    @IBOutlet private weak var weatherImageView: UIImageView!
     @IBOutlet private weak var weatherReloadButton: UIButton!
     @IBOutlet private weak var closeButton: UIButton!
-    @IBOutlet private weak var indicatorView: UIActivityIndicatorView!
     
     private var weatherUseCase: WeatherUseCaseProtocol!
     private var alertController: UIAlertController?
@@ -22,15 +21,12 @@ final class WeatherDisplayViewController: UIViewController {
     deinit {
         print("debug", #function)
     }
+    private var weather: Weather!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         weatherImageView.image = nil
         addObserverWillEnterForegroundNotification()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         displayWeather()
     }
     
@@ -43,46 +39,18 @@ final class WeatherDisplayViewController: UIViewController {
     }
     
     @objc private func displayWeather() {
-        indicatorView.startAnimating()
-        alertController?.dismiss(animated: true)
-        Task {
-            do {
-                let weather = try await weatherUseCase.fetchWeather()
-                weatherImageView.image = UIImage(named: weather.imageName)
-                weatherImageView.tintColor = weather.imageColor
-                minTemperatureLabel.text = String(weather.minTemp)
-                maxTemperatureLabel.text = String(weather.maxTemp)
-                indicatorView.stopAnimating()
-            } catch let error as WeatherFetchError {
-                self.removeObserverWillEnterForegroundNotification()
-                let errorDescription = error.errorDescription ?? ""
-                self.alertController = self.presentErrorAlert(
-                    title: "エラーが発生しました。\(errorDescription)",
-                    actionHandler: { [weak self] _ in
-                        guard let self = self else { return }
-                        self.addObserverWillEnterForegroundNotification()
-                    }
-                )
-                self.indicatorView.stopAnimating()
-            } catch {
-                self.alertController = self.presentErrorAlert(
-                    title: "予期しないエラーが発生しました。",
-                    actionHandler: { [weak self] _ in
-                        guard let self = self else { return }
-                        self.addObserverWillEnterForegroundNotification()
-                    }
-                )
-                self.indicatorView.stopAnimating()
-            }
-        }
+        weatherImageView.image = UIImage(named: weather.imageName)
+        weatherImageView.tintColor = weather.imageColor
+        minTemperatureLabel.text = String(weather.minTemp)
+        maxTemperatureLabel.text = String(weather.maxTemp)
     }
     
-    static func instantiate(weatherUseCase: WeatherUseCaseProtocol) -> WeatherDisplayViewController {
+    static func instantiate(weather: Weather) -> WeatherDisplayViewController {
         let weatherDisplayStoryboard = UIStoryboard(name: "WeatherDisplay", bundle: nil)
         let viewController = weatherDisplayStoryboard.instantiateViewController(
             withIdentifier: String(describing: WeatherDisplayViewController.self)
         ) as! WeatherDisplayViewController
-        viewController.weatherUseCase = weatherUseCase
+        viewController.weather = weather
         return viewController
     }
     
@@ -104,8 +72,6 @@ final class WeatherDisplayViewController: UIViewController {
     }
     
 }
-
-extension WeatherDisplayViewController: AlertPresentable { }
 
 private extension Weather {
     
