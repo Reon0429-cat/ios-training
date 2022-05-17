@@ -10,13 +10,16 @@ import UIKit
 final class WeatherListViewController: UIViewController {
 
     @IBOutlet private weak var tableView: UITableView!
+    
     private let weatherUseCase = WeatherUseCase()
     private var weathers = [(weather: Weather, area: String)]()
     private var alertController: UIAlertController?
+    private let refreshControl = UIRefreshControl()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
+        setupRefreshControl()
         Task {
             await self.displayWeathers()
         }
@@ -28,6 +31,7 @@ final class WeatherListViewController: UIViewController {
             for weatherItem in weatherItems {
                 let weather = (weather: weatherItem.info,
                                area: weatherItem.area)
+                weathers.removeAll()
                 weathers.append(weather)
             }
             DispatchQueue.executeMainThread {
@@ -49,10 +53,26 @@ final class WeatherListViewController: UIViewController {
         }
     }
     
+    @objc private func refreshTable() {
+        Task {
+            await self.displayWeathers()
+            DispatchQueue.executeMainThread {
+                self.refreshControl.endRefreshing()
+            }
+        }
+    }
+    
     private func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.refreshControl = refreshControl
         tableView.registerCustomCell(WeatherTableViewCell.self)
+    }
+    
+    private func setupRefreshControl() {
+        refreshControl.addTarget(self,
+                                 action: #selector(refreshTable),
+                                 for: .valueChanged)
     }
     
     private func presentWeatherDisplay(weather: Weather) {
