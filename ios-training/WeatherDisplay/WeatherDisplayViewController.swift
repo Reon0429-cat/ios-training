@@ -9,16 +9,16 @@ import UIKit
 
 final class WeatherDisplayViewController: UIViewController {
     
-    @IBOutlet private weak var minTemperatureLabel: UILabel!
-    @IBOutlet private weak var maxTemperatureLabel: UILabel!
-    @IBOutlet private weak var weatherImageView: UIImageView!
+    @IBOutlet weak var minTemperatureLabel: UILabel!
+    @IBOutlet weak var maxTemperatureLabel: UILabel!
+    @IBOutlet weak var weatherImageView: UIImageView!
     @IBOutlet private weak var weatherReloadButton: UIButton!
     @IBOutlet private weak var closeButton: UIButton!
     @IBOutlet private weak var indicatorView: UIActivityIndicatorView!
     
-    private var weatherUseCase = WeatherUseCase()
     private var alertController: UIAlertController?
     private var weather: Weather!
+    private var weatherUseCase: WeatherUseCaseProtocol!
     
     deinit {
         print("debug", #function)
@@ -44,7 +44,18 @@ final class WeatherDisplayViewController: UIViewController {
         Task {
             do {
                 let weatherItems = try await weatherUseCase.fetchWeatherItems()
-                let weather = weatherItems.map { $0.info }.randomElement()!
+                guard let weather = weatherItems.map({ $0.info }).randomElement() else {
+                    DispatchQueue.executeMainThread {
+                        self.presentErrorAlert(
+                            title: "エラーが発生しました。",
+                            getAlertHandler: { alert in
+                                self.alertController = alert
+                            }
+                        )
+                        self.indicatorView.stopAnimating()
+                    }
+                    return
+                }
                 DispatchQueue.executeMainThread {
                     self.setupUI(weather: weather)
                     self.indicatorView.stopAnimating()
@@ -76,12 +87,16 @@ final class WeatherDisplayViewController: UIViewController {
         indicatorView.stopAnimating()
     }
     
-    static func instantiate(weather: Weather) -> WeatherDisplayViewController {
+    static func instantiate(
+        weather: Weather,
+        weatherUseCase: WeatherUseCaseProtocol
+    ) -> WeatherDisplayViewController {
         let weatherDisplayStoryboard = UIStoryboard(name: "WeatherDisplay", bundle: nil)
         let viewController = weatherDisplayStoryboard.instantiateViewController(
             withIdentifier: String(describing: WeatherDisplayViewController.self)
         ) as! WeatherDisplayViewController
         viewController.weather = weather
+        viewController.weatherUseCase = weatherUseCase
         return viewController
     }
     
