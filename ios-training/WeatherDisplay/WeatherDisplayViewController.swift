@@ -46,8 +46,8 @@ final class WeatherDisplayViewController: UIViewController {
     }
     
     @objc private func displayWeather() {
+        indicatorView.startAnimating()
         Task {
-            indicatorView.startAnimating()
             do {
                 let weather = try await weatherUseCase.fetchWeather()
                 DispatchQueue.executeMainThread {
