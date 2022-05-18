@@ -61,6 +61,12 @@
                                     <action selector="closeButtonDidTapped:" destination="BYZ-38-t0r" eventType="touchUpInside" id="VXI-bn-NUH"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="md6-hT-5ON">
+                                <rect key="frame" x="190" y="586.5" width="34.5" height="34.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="md6-hT-5ON" secondAttribute="height" multiplier="1:1" id="XWH-eg-kGe"/>
+                                </constraints>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -71,11 +77,15 @@
                             <constraint firstItem="kuQ-qE-6bY" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Reb-Bw-8Jd"/>
                             <constraint firstItem="kuQ-qE-6bY" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="a9E-c4-geZ"/>
                             <constraint firstItem="kuQ-qE-6bY" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="width" multiplier="0.5" id="agZ-eq-1ls"/>
+                            <constraint firstItem="md6-hT-5ON" firstAttribute="top" secondItem="kuQ-qE-6bY" secondAttribute="bottom" constant="20" id="cnD-ka-ZNk"/>
+                            <constraint firstItem="NgB-XJ-ful" firstAttribute="top" secondItem="md6-hT-5ON" secondAttribute="bottom" constant="25.5" id="oCT-Pt-ir2"/>
+                            <constraint firstItem="md6-hT-5ON" firstAttribute="centerX" secondItem="6Tk-OE-BBY" secondAttribute="centerX" id="pLs-ns-n4c"/>
                             <constraint firstItem="VTx-Sj-fUK" firstAttribute="centerX" secondItem="Wuw-9n-AcZ" secondAttribute="centerX" id="s4h-QR-BRc"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="closeButton" destination="NgB-XJ-ful" id="2zR-fu-N5j"/>
+                        <outlet property="indicatorView" destination="md6-hT-5ON" id="2qs-w9-jyf"/>
                         <outlet property="maxTemperatureLabel" destination="Wuw-9n-AcZ" id="ZV1-be-GWc"/>
                         <outlet property="minTemperatureLabel" destination="XCV-Z2-5Mj" id="AbL-KB-gjQ"/>
                         <outlet property="weatherImageView" destination="jXA-z3-3yz" id="KbI-6Z-9pk"/>
