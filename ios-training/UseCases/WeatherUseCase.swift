@@ -42,7 +42,8 @@ enum WeatherFetchError: LocalizedError {
 final class WeatherUseCase: WeatherUseCaseProtocol {
     
     func fetchWeatherItems() async throws -> [WeatherItem] {
-        let weatherRequest = WeatherRequest(areas: ["Tokyo"], date: Date())
+        let area = Area.allCases.map { $0.rawValue }.randomElement()!
+        let weatherRequest = WeatherRequest(areas: [area], date: Date())
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = .iso8601
         guard let requestData = try? encoder.encode(weatherRequest) else {
