@@ -29,9 +29,7 @@ final class WeatherDisplayViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        Task {
-            await self.addObserverWillEnterForegroundNotification()
-        }
+        addObserverWillEnterForegroundNotification()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -69,9 +67,7 @@ final class WeatherDisplayViewController: UIViewController {
             let errorDescription = error.errorDescription ?? ""
             DispatchQueue.executeMainThread {
                 self.presentErrorAlert(title: "エラーが発生しました。\(errorDescription)") { _ in
-                    Task {
-                        await self.addObserverWillEnterForegroundNotification()
-                    }
+                    self.addObserverWillEnterForegroundNotification()
                 }
                 self.indicatorView.stopAnimating()
             }
@@ -79,9 +75,7 @@ final class WeatherDisplayViewController: UIViewController {
             self.removeObserverWillEnterForegroundNotification()
             DispatchQueue.executeMainThread {
                 self.presentErrorAlert(title: "予期しないエラーが発生しました。") { _ in
-                    Task {
-                        await self.addObserverWillEnterForegroundNotification()
-                    }
+                    self.addObserverWillEnterForegroundNotification()
                 }
                 self.indicatorView.stopAnimating()
             }
@@ -97,7 +91,7 @@ final class WeatherDisplayViewController: UIViewController {
         return viewController
     }
     
-    private func addObserverWillEnterForegroundNotification() async {
+    private func addObserverWillEnterForegroundNotification() {
         NotificationCenter.default.addObserver(forName: UIApplication.willEnterForegroundNotification,
                                                object: nil,
                                                queue: .main) { [weak self] _ in
