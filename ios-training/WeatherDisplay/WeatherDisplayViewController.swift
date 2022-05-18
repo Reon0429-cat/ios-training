@@ -29,6 +29,7 @@ final class WeatherDisplayViewController: UIViewController {
         weatherImageView.image = nil
         addObserverWillEnterForegroundNotification()
         setupUI(weather: weather)
+        addObserverWillEnterForegroundNotification()
     }
     
     @IBAction private func weatherReloadButtonDidTapped(_ sender: Any) {
@@ -45,11 +46,12 @@ final class WeatherDisplayViewController: UIViewController {
             do {
                 let weatherItems = try await weatherUseCase.fetchWeatherItems()
                 guard let weather = weatherItems.map({ $0.info }).randomElement() else {
+                    removeObserverWillEnterForegroundNotification()
                     DispatchQueue.executeMainThread {
                         self.presentErrorAlert(
                             title: "エラーが発生しました。",
-                            getAlertHandler: { alert in
-                                self.alertController = alert
+                            actionHandler: { _ in
+                                self.addObserverWillEnterForegroundNotification()
                             }
                         )
                         self.indicatorView.stopAnimating()
@@ -58,25 +60,48 @@ final class WeatherDisplayViewController: UIViewController {
                 }
                 DispatchQueue.executeMainThread {
                     self.setupUI(weather: weather)
-                    self.indicatorView.stopAnimating()
                 }
             } catch let error as WeatherFetchError {
                 let errorDescription = error.errorDescription ?? ""
+                removeObserverWillEnterForegroundNotification()
                 DispatchQueue.executeMainThread {
                     self.alertController = self.presentErrorAlert(
-                        title: "エラーが発生しました。\(errorDescription)"
+                        title: "エラーが発生しました。\(errorDescription)",
+                        actionHandler: { _ in
+                            self.addObserverWillEnterForegroundNotification()
+                        }
                     )
                     self.indicatorView.stopAnimating()
                 }
             } catch {
                 DispatchQueue.executeMainThread {
                     self.alertController = self.presentErrorAlert(
-                        title: "予期しないエラーが発生しました。"
+                        title: "予期しないエラーが発生しました。",
+                        actionHandler: { _ in
+                            self.addObserverWillEnterForegroundNotification()
+                        }
                     )
                     self.indicatorView.stopAnimating()
                 }
             }
         }
+    }
+    
+    private func addObserverWillEnterForegroundNotification() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(reloadWeather),
+            name: UIApplication.willEnterForegroundNotification,
+            object: nil
+        )
+    }
+    
+    private func removeObserverWillEnterForegroundNotification() {
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIApplication.willEnterForegroundNotification,
+            object: nil
+        )
     }
     
     private func setupUI(weather: Weather) {
@@ -98,23 +123,6 @@ final class WeatherDisplayViewController: UIViewController {
         viewController.weather = weather
         viewController.weatherUseCase = weatherUseCase
         return viewController
-    }
-    
-    private func addObserverWillEnterForegroundNotification() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(reloadWeather),
-            name: UIApplication.willEnterForegroundNotification,
-            object: nil
-        )
-    }
-    
-    private func removeObserverWillEnterForegroundNotification() {
-        NotificationCenter.default.removeObserver(
-            self,
-            name: UIApplication.willEnterForegroundNotification,
-            object: nil
-        )
     }
     
 }
