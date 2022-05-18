@@ -47,6 +47,7 @@ final class WeatherDisplayViewController: UIViewController {
     
     @objc private func displayWeather() {
         indicatorView.startAnimating()
+        closeErrorAlertIfNeeded()
         Task {
             do {
                 let weather = try await weatherUseCase.fetchWeather()
@@ -102,6 +103,17 @@ final class WeatherDisplayViewController: UIViewController {
             name: UIApplication.willEnterForegroundNotification,
             object: nil
         )
+    }
+    
+    private func closeErrorAlertIfNeeded() {
+        let scenes = UIApplication.shared.connectedScenes
+        let windowScene = scenes.first as? UIWindowScene
+        let window = windowScene?.windows.first
+        let viewController = window?.rootViewController
+        let alert = viewController as? UIAlertController
+        if let alert = alert {
+            alert.dismiss(animated: true)
+        }
     }
     
 }
