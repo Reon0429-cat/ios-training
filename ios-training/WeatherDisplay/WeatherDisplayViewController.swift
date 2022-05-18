@@ -22,6 +22,11 @@ final class WeatherDisplayViewController: UIViewController {
         print("debug", #function)
     }
     
+    override func loadView() {
+        super.loadView()
+        weatherImageView.image = nil
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         Task {
