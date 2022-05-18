@@ -29,7 +29,6 @@ final class WeatherDisplayViewController: UIViewController {
         weatherImageView.image = nil
         addObserverWillEnterForegroundNotification()
         setupUI(weather: weather)
-        addObserverWillEnterForegroundNotification()
     }
     
     @IBAction private func weatherReloadButtonDidTapped(_ sender: Any) {
@@ -46,16 +45,7 @@ final class WeatherDisplayViewController: UIViewController {
             do {
                 let weatherItems = try await weatherUseCase.fetchWeatherItems()
                 guard let weather = weatherItems.map({ $0.info }).randomElement() else {
-                    removeObserverWillEnterForegroundNotification()
-                    DispatchQueue.executeMainThread {
-                        self.presentErrorAlert(
-                            title: "エラーが発生しました。",
-                            actionHandler: { _ in
-                                self.addObserverWillEnterForegroundNotification()
-                            }
-                        )
-                        self.indicatorView.stopAnimating()
-                    }
+                    presentErrorAlert(title: "エラーが発生しました。")
                     return
                 }
                 DispatchQueue.executeMainThread {
@@ -63,28 +53,23 @@ final class WeatherDisplayViewController: UIViewController {
                 }
             } catch let error as WeatherFetchError {
                 let errorDescription = error.errorDescription ?? ""
-                removeObserverWillEnterForegroundNotification()
-                DispatchQueue.executeMainThread {
-                    self.alertController = self.presentErrorAlert(
-                        title: "エラーが発生しました。\(errorDescription)",
-                        actionHandler: { _ in
-                            self.addObserverWillEnterForegroundNotification()
-                        }
-                    )
-                    self.indicatorView.stopAnimating()
-                }
+                presentErrorAlert(title: "エラーが発生しました。\(errorDescription)")
+
             } catch {
-                DispatchQueue.executeMainThread {
-                    self.alertController = self.presentErrorAlert(
-                        title: "予期しないエラーが発生しました。",
-                        actionHandler: { _ in
-                            self.addObserverWillEnterForegroundNotification()
-                        }
-                    )
-                    self.indicatorView.stopAnimating()
-                }
+                presentErrorAlert(title: "予期しないエラーが発生しました。")
             }
         }
+    }
+    
+    private func presentErrorAlert(title: String) {
+        removeObserverWillEnterForegroundNotification()
+        self.alertController =  presentErrorAlert(
+            title: title,
+            actionHandler: { _ in
+                self.addObserverWillEnterForegroundNotification()
+            }
+        )
+        indicatorView.stopAnimating()
     }
     
     private func addObserverWillEnterForegroundNotification() {
