@@ -9,7 +9,7 @@ import Foundation
 
 extension DispatchQueue {
 
-    static func changeToMainThread(handler: @escaping () -> Void) {
+    static func executeMainThread(handler: @escaping () -> Void) {
         if Thread.isMainThread {
             handler()
         } else {
