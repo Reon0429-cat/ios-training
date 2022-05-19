@@ -28,10 +28,10 @@ final class WeatherListViewController: UIViewController {
     private func displayWeathers() async {
         do {
             let weatherItems = try await self.weatherUseCase.fetchWeatherItems()
+            weathers.removeAll()
             for weatherItem in weatherItems {
                 let weather = (weather: weatherItem.info,
                                area: weatherItem.area)
-                weathers.removeAll()
                 weathers.append(weather)
             }
             DispatchQueue.executeMainThread {
