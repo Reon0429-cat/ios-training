@@ -53,6 +53,17 @@ final class ios_trainingTests: XCTestCase {
             weatherUseCase: weatherUseCaseStub
         )
         weatherDisplayViewController.loadViewIfNeeded()
+        waitForAppearExecuted()
+    }
+    
+    private func waitForAppearExecuted() {
+        let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+        windowScene?.windows.first?.rootViewController = weatherDisplayViewController
+        let expection = expectation(description: "test")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            expection.fulfill()
+        }
+        wait(for: [expection], timeout: 3)
     }
     
 }
