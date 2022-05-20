@@ -18,7 +18,7 @@ final class WeatherUseCaseStub: WeatherUseCaseProtocol {
     }
     
     func fetchWeather() {
-        delegate?.didFetchedWeather(result: .success(weather))
+        delegate?.didFetchedWeather(weather: weather)
     }
 
 }
