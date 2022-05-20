@@ -13,7 +13,6 @@ final class WeatherListViewController: UIViewController {
     
     private let weatherUseCase = WeatherUseCase()
     private var weathers = [(weather: Weather, area: String)]()
-    private var alertController: UIAlertController?
     private let refreshControl = UIRefreshControl()
     
     override func viewDidLoad() {
@@ -40,13 +39,13 @@ final class WeatherListViewController: UIViewController {
         } catch let error as WeatherFetchError {
             let errorDescription = error.errorDescription ?? ""
             DispatchQueue.executeMainThread {
-                self.alertController = self.presentErrorAlert(
+                self.presentErrorAlert(
                     title: "エラーが発生しました。\(errorDescription)"
                 )
             }
         } catch {
             DispatchQueue.executeMainThread {
-                self.alertController = self.presentErrorAlert(
+                self.presentErrorAlert(
                     title: "予期しないエラーが発生しました。"
                 )
             }

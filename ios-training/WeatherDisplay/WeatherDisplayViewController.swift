@@ -63,7 +63,7 @@ final class WeatherDisplayViewController: UIViewController {
     
     private func presentErrorAlert(title: String) {
         removeObserverWillEnterForegroundNotification()
-        self.alertController =  presentErrorAlert(
+        self.alertController = presentErrorAlert(
             title: title,
             actionHandler: { _ in
                 self.addObserverWillEnterForegroundNotification()
