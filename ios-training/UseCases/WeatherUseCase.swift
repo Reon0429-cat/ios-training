@@ -10,6 +10,7 @@ import YumemiWeather
 
 protocol WeatherUseCaseProtocol: AnyObject {
     func fetchWeather()
+    var delegate: WeatherUseCaseDelegate? { get }
 }
 
 enum WeatherFetchError: LocalizedError {
