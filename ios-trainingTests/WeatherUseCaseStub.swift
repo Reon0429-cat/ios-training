@@ -15,8 +15,8 @@ final class WeatherUseCaseStub: WeatherUseCaseProtocol {
         self.weather = weather
     }
     
-    func fetchWeather() throws -> Weather {
-        weather
+    func fetchWeather(completionHandler: @escaping ResultHandler<Weather>) {
+        completionHandler(.success(weather))
     }
     
 }
