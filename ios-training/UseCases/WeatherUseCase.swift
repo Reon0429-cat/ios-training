@@ -8,8 +8,9 @@
 import Foundation
 import YumemiWeather
 
-protocol WeatherUseCaseProtocol {
-    func fetchWeather(completionHandler: @escaping ResultHandler<Weather>)
+protocol WeatherUseCaseProtocol: AnyObject {
+    func fetchWeather()
+    var delegate: WeatherUseCaseDelegate? { get }
 }
 
 enum WeatherFetchError: LocalizedError {
@@ -41,42 +42,49 @@ enum WeatherFetchError: LocalizedError {
 
 typealias ResultHandler<T> = (Result<T, Error>) -> Void
 
+protocol WeatherUseCaseDelegate: AnyObject {
+    func didFetchedWeather(weather: Weather)
+    func didFailedWithError(error: Error)
+}
+
 final class WeatherUseCase: WeatherUseCaseProtocol {
     
-    func fetchWeather(completionHandler: @escaping ResultHandler<Weather>) {
+    weak var delegate: WeatherUseCaseDelegate?
+    
+    func fetchWeather() {
         DispatchQueue.global().async {
             let weatherRequest = WeatherRequest(area: "tokyo", date: Date())
             let encoder = JSONEncoder()
             encoder.dateEncodingStrategy = .iso8601
             guard let requestData = try? encoder.encode(weatherRequest) else {
-                completionHandler(.failure(WeatherFetchError.failedEncoding))
+                self.delegate?.didFailedWithError(error: WeatherFetchError.failedEncoding)
                 return
             }
             guard let jsonString = String(data: requestData, encoding: .utf8) else {
-                completionHandler(.failure(WeatherFetchError.failedConvertDataToJson))
+                self.delegate?.didFailedWithError(error: WeatherFetchError.failedConvertDataToJson)
                 return
             }
             let fetchedJson: String
             do {
                 fetchedJson = try YumemiWeather.syncFetchWeather(jsonString)
             } catch let error as YumemiWeatherError {
-                completionHandler(.failure(error))
+                self.delegate?.didFailedWithError(error: error)
                 return
             } catch {
-                completionHandler(.failure(error))
+                self.delegate?.didFailedWithError(error: error)
                 return
             }
             guard let fetchedJsonData = fetchedJson.data(using: .utf8) else {
-                completionHandler(.failure(WeatherFetchError.failedConvertJsonToData))
+                self.delegate?.didFailedWithError(error: WeatherFetchError.failedConvertJsonToData)
                 return
             }
             let decoder = JSONDecoder()
             decoder.keyDecodingStrategy = .convertFromSnakeCase
             guard let weather = try? decoder.decode(Weather.self, from: fetchedJsonData) else {
-                completionHandler(.failure(WeatherFetchError.failedDecoding))
+                self.delegate?.didFailedWithError(error: WeatherFetchError.failedDecoding)
                 return
             }
-            completionHandler(.success(weather))
+            self.delegate?.didFetchedWeather(weather: weather)
         }
     }
     
