@@ -17,7 +17,6 @@ final class TopViewController: UIViewController {
     private func presentWeatherDisplay() {
         let weatherUseCase = WeatherUseCase()
         let viewController = WeatherDisplayViewController.instantiate(weatherUseCase: weatherUseCase)
-        weatherUseCase.delegate = viewController
         viewController.modalPresentationStyle = .fullScreen
         present(viewController, animated: true)
     }
