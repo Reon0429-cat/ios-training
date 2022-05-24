@@ -8,7 +8,7 @@
 import Foundation
 import YumemiWeather
 
-protocol WeatherUseCaseProtocol {
+protocol WeatherUseCaseProtocol: AnyObject {
     func fetchWeather()
 }
 
