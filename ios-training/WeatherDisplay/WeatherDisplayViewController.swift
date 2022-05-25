@@ -92,8 +92,8 @@ final class WeatherDisplayViewController: UIViewController {
         NotificationCenter.default.addObserver(forName: UIApplication.willEnterForegroundNotification,
                                                object: nil,
                                                queue: .main) { [weak self] _ in
-            guard let strongSelf = self else { return }
-            strongSelf.displayWeather()
+            guard let self = self else { return }
+            self.displayWeather()
         }
     }
     
