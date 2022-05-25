@@ -19,46 +19,40 @@ final class WeatherListViewController: UIViewController {
         super.viewDidLoad()
         setupTableView()
         setupRefreshControl()
-        Task {
-            await self.displayWeathers()
-        }
+        displayWeathers()
     }
     
-    private func displayWeathers() async {
-        do {
-            let weatherItems = try await self.weatherUseCase.fetchWeatherItems()
-            weathers.removeAll()
-            for weatherItem in weatherItems {
-                let weather = (weather: weatherItem.info,
-                               area: weatherItem.area)
-                weathers.append(weather)
-            }
-            DispatchQueue.executeMainThread {
-                self.tableView.reloadData()
-            }
-        } catch let error as WeatherFetchError {
-            let errorDescription = error.errorDescription ?? ""
-            DispatchQueue.executeMainThread {
-                self.presentErrorAlert(
-                    title: "エラーが発生しました。\(errorDescription)"
-                )
-            }
-        } catch {
-            DispatchQueue.executeMainThread {
-                self.presentErrorAlert(
-                    title: "予期しないエラーが発生しました。"
-                )
+    private func displayWeathers() {
+        Task {
+            do {
+                let weatherItems = try await self.weatherUseCase.fetchWeatherItems()
+                weathers.removeAll()
+                for weatherItem in weatherItems {
+                    let weather = (weather: weatherItem.info,
+                                   area: weatherItem.area)
+                    weathers.append(weather)
+                }
+                tableView.reloadData()
+            } catch let error as WeatherFetchError {
+                let errorDescription = error.errorDescription ?? ""
+                DispatchQueue.executeMainThread {
+                    self.presentErrorAlert(
+                        title: "エラーが発生しました。\(errorDescription)"
+                    )
+                }
+            } catch {
+                DispatchQueue.executeMainThread {
+                    self.presentErrorAlert(
+                        title: "予期しないエラーが発生しました。"
+                    )
+                }
             }
         }
     }
     
     @objc private func refreshTable() {
-        Task {
-            await self.displayWeathers()
-            DispatchQueue.executeMainThread {
-                self.refreshControl.endRefreshing()
-            }
-        }
+        displayWeathers()
+        refreshControl.endRefreshing()
     }
     
     private func setupTableView() {
