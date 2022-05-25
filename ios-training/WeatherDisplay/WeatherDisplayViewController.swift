@@ -51,13 +51,11 @@ final class WeatherDisplayViewController: UIViewController {
         Task {
             do {
                 let weather = try await weatherUseCase.fetchWeather()
-                DispatchQueue.executeMainThread {
-                    self.weatherImageView.image = UIImage(named: weather.imageName)
-                    self.weatherImageView.tintColor = weather.imageColor
-                    self.minTemperatureLabel.text = String(weather.minTemp)
-                    self.maxTemperatureLabel.text = String(weather.maxTemp)
-                    self.indicatorView.stopAnimating()
-                }
+                weatherImageView.image = UIImage(named: weather.imageName)
+                weatherImageView.tintColor = weather.imageColor
+                minTemperatureLabel.text = String(weather.minTemp)
+                maxTemperatureLabel.text = String(weather.maxTemp)
+                indicatorView.stopAnimating()
             } catch let error as WeatherFetchError {
                 self.removeObserverWillEnterForegroundNotification()
                 let errorDescription = error.errorDescription ?? ""
