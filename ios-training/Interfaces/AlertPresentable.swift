@@ -10,27 +10,26 @@ import UIKit
 protocol AlertPresentable {
     func presentErrorAlert(
         title: String,
-        actionHandler: ((UIAlertAction) -> Void)?,
-        getAlertHandler: ((UIAlertController) -> Void)?
-    )
+        actionHandler: ((UIAlertAction) -> Void)?
+    ) -> UIAlertController
 }
 
 extension AlertPresentable where Self: UIViewController {
     
+    @discardableResult
     func presentErrorAlert(
         title: String,
-        actionHandler: ((UIAlertAction) -> Void)? = nil,
-        getAlertHandler: ((UIAlertController) -> Void)?
-    ) {
+        actionHandler: ((UIAlertAction) -> Void)? = nil
+    ) -> UIAlertController {
         let alert = UIAlertController(title: title,
                                       message: nil,
                                       preferredStyle: .alert)
-        getAlertHandler?(alert)
         let alertAction = UIAlertAction(title: "閉じる",
                                         style: .default,
                                         handler: actionHandler)
         alert.addAction(alertAction)
         present(alert, animated: true)
+        return alert
     }
     
 }
