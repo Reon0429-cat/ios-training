@@ -63,7 +63,8 @@ final class WeatherDisplayViewController: UIViewController {
                 DispatchQueue.executeMainThread {
                     self.alertController = self.presentErrorAlert(
                         title: "エラーが発生しました。\(errorDescription)",
-                        actionHandler: { _ in
+                        actionHandler: { [weak self] _ in
+                            guard let self = self else { return }
                             self.addObserverWillEnterForegroundNotification()
                         }
                     )
@@ -73,7 +74,8 @@ final class WeatherDisplayViewController: UIViewController {
                 DispatchQueue.executeMainThread {
                     self.alertController = self.presentErrorAlert(
                         title: "予期しないエラーが発生しました。",
-                        actionHandler: { _ in
+                        actionHandler: { [weak self] _ in
+                            guard let self = self else { return }
                             self.addObserverWillEnterForegroundNotification()
                         }
                     )
