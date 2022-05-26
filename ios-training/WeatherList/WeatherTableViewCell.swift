@@ -14,12 +14,12 @@ final class WeatherTableViewCell: UITableViewCell {
     @IBOutlet private weak var minTempLabel: UILabel!
     @IBOutlet private weak var maxTempLabel: UILabel!
     
-    func configure(with weather: (weather: Weather, area: String)) {
-        weatherIconImageView.image = UIImage(named: weather.weather.imageName)
-        weatherIconImageView.tintColor = weather.weather.imageColor
-        minTempLabel.text = String(weather.weather.minTemp)
-        maxTempLabel.text = String(weather.weather.maxTemp)
-        cityNameLabel.text = weather.area
+    func configure(with weatherItem: WeatherItem) {
+        weatherIconImageView.image = UIImage(named: weatherItem.info.imageName)
+        weatherIconImageView.tintColor = weatherItem.info.imageColor
+        minTempLabel.text = String(weatherItem.info.minTemp)
+        maxTempLabel.text = String(weatherItem.info.maxTemp)
+        cityNameLabel.text = weatherItem.area
     }
     
 }

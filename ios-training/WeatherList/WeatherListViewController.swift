@@ -12,7 +12,7 @@ final class WeatherListViewController: UIViewController {
     @IBOutlet private weak var tableView: UITableView!
     
     private let weatherUseCase = WeatherUseCase()
-    private var weathers = [(weather: Weather, area: String)]()
+    private var weatherItems = [WeatherItem]()
     private let refreshControl = UIRefreshControl()
     
     override func viewDidLoad() {
@@ -26,12 +26,7 @@ final class WeatherListViewController: UIViewController {
         Task {
             do {
                 let weatherItems = try await self.weatherUseCase.fetchWeatherItems()
-                weathers.removeAll()
-                for weatherItem in weatherItems {
-                    let weather = (weather: weatherItem.info,
-                                   area: weatherItem.area)
-                    weathers.append(weather)
-                }
+                self.weatherItems = weatherItems
                 tableView.reloadData()
             } catch let error as WeatherFetchError {
                 let errorDescription = error.errorDescription ?? ""
@@ -68,9 +63,9 @@ final class WeatherListViewController: UIViewController {
                                  for: .valueChanged)
     }
     
-    private func presentWeatherDisplay(weather: Weather) {
+    private func presentWeatherDisplay(weatherItem: WeatherItem) {
         let viewController = WeatherDisplayViewController.instantiate(
-            weather: weather,
+            weather: weatherItem.info,
             weatherUseCase: WeatherUseCase()
         )
         viewController.modalPresentationStyle = .fullScreen
@@ -84,8 +79,8 @@ extension WeatherListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let weather = weathers[indexPath.row].weather
-        presentWeatherDisplay(weather: weather)
+        let weatherItem = weatherItems[indexPath.row]
+        presentWeatherDisplay(weatherItem: weatherItem)
     }
     
     func tableView(_ tableView: UITableView,
@@ -99,14 +94,14 @@ extension WeatherListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView,
                    numberOfRowsInSection section: Int) -> Int {
-        return weathers.count
+        return weatherItems.count
     }
     
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCustomCell(with: WeatherTableViewCell.self)
-        let weather = weathers[indexPath.row]
-        cell.configure(with: weather)
+        let weatherItem = weatherItems[indexPath.row]
+        cell.configure(with: weatherItem)
         return cell
     }
     
