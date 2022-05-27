@@ -28,7 +28,7 @@ final class WeatherDisplayViewController: UIViewController {
         super.viewDidLoad()
         weatherImageView.image = nil
         addObserverWillEnterForegroundNotification()
-        setupUI(weather: weather)
+        configureUI(weather: weather)
     }
     
     @IBAction private func weatherReloadButtonDidTapped(_ sender: Any) {
@@ -45,7 +45,7 @@ final class WeatherDisplayViewController: UIViewController {
             do {
                 let weather = try await weatherUseCase.fetchWeather()
                 DispatchQueue.executeMainThread {
-                    self.setupUI(weather: weather)
+                    self.configureUI(weather: weather)
                 }
             } catch let error as WeatherFetchError {
                 let errorDescription = error.errorDescription ?? ""
@@ -85,7 +85,7 @@ final class WeatherDisplayViewController: UIViewController {
         )
     }
     
-    private func setupUI(weather: Weather) {
+    private func configureUI(weather: Weather) {
         weatherImageView.image = UIImage(named: weather.imageName)
         weatherImageView.tintColor = weather.imageColor
         minTemperatureLabel.text = String(weather.minTemp)
