@@ -41,6 +41,7 @@ final class WeatherDisplayViewController: UIViewController {
     
     @objc private func reloadWeather() {
         indicatorView.startAnimating()
+        alertController?.dismiss(animated: true)
         Task {
             do {
                 let weather = try await weatherUseCase.fetchWeather()
@@ -49,37 +50,23 @@ final class WeatherDisplayViewController: UIViewController {
                 }
             } catch let error as WeatherFetchError {
                 let errorDescription = error.errorDescription ?? ""
-                presentErrorAlert(title: "エラーが発生しました。\(errorDescription)")
-
+                alertController = presentErrorAlert(
+                    title: "エラーが発生しました。\(errorDescription)"
+                )
+                indicatorView.stopAnimating()
             } catch {
-                presentErrorAlert(title: "予期しないエラーが発生しました。")
+                alertController = presentErrorAlert(
+                    title: "予期しないエラーが発生しました。"
+                )
+                indicatorView.stopAnimating()
             }
         }
-    }
-    
-    private func presentErrorAlert(title: String) {
-        removeObserverWillEnterForegroundNotification()
-        self.alertController = presentErrorAlert(
-            title: title,
-            actionHandler: { _ in
-                self.addObserverWillEnterForegroundNotification()
-            }
-        )
-        indicatorView.stopAnimating()
     }
     
     private func addObserverWillEnterForegroundNotification() {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(reloadWeather),
-            name: UIApplication.willEnterForegroundNotification,
-            object: nil
-        )
-    }
-    
-    private func removeObserverWillEnterForegroundNotification() {
-        NotificationCenter.default.removeObserver(
-            self,
             name: UIApplication.willEnterForegroundNotification,
             object: nil
         )
