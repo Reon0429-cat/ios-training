@@ -43,11 +43,7 @@ final class WeatherDisplayViewController: UIViewController {
         indicatorView.startAnimating()
         Task {
             do {
-                let weatherItems = try await weatherUseCase.fetchWeatherItems()
-                guard let weather = weatherItems.map({ $0.info }).randomElement() else {
-                    presentErrorAlert(title: "エラーが発生しました。")
-                    return
-                }
+                let weather = try await weatherUseCase.fetchWeather()
                 DispatchQueue.executeMainThread {
                     self.setupUI(weather: weather)
                 }

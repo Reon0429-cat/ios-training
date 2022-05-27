@@ -21,7 +21,7 @@
 		690C85182817BD4300914156 /* AlertPresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 690C85172817BD4300914156 /* AlertPresentable.swift */; };
 		690C851A2818D92300914156 /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 690C85192818D92300914156 /* Weather.swift */; };
 		690C851C2818DC6700914156 /* WeatherType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 690C851B2818DC6700914156 /* WeatherType.swift */; };
-		690C851E28191D2600914156 /* WeatherRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 690C851D28191D2600914156 /* WeatherRequest.swift */; };
+		690C851E28191D2600914156 /* WeatherListRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 690C851D28191D2600914156 /* WeatherListRequest.swift */; };
 		694DBAF62833397500E0A3E3 /* WeatherList.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 694DBAF52833397500E0A3E3 /* WeatherList.storyboard */; };
 		694DBAF82833397A00E0A3E3 /* WeatherListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694DBAF72833397A00E0A3E3 /* WeatherListViewController.swift */; };
 		694DBAFB28333A0F00E0A3E3 /* WeatherTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694DBAF928333A0F00E0A3E3 /* WeatherTableViewCell.swift */; };
@@ -30,6 +30,7 @@
 		694DBB0028335C8300E0A3E3 /* UITableViewCell+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694DBAFF28335C8300E0A3E3 /* UITableViewCell+Extension.swift */; };
 		694DBB0228335C9E00E0A3E3 /* NSObjectProtocol+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 694DBB0128335C9E00E0A3E3 /* NSObjectProtocol+Extension.swift */; };
 		695A8615282CAD2900637206 /* DispatchQueue+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 695A8614282CAD2900637206 /* DispatchQueue+Extension.swift */; };
+		6973A86E284060270070AFA6 /* WeatherRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6973A86D284060270070AFA6 /* WeatherRequest.swift */; };
 		69BAA404282B801800238787 /* WeatherUseCaseStub.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69BAA403282B801800238787 /* WeatherUseCaseStub.swift */; };
 /* End PBXBuildFile section */
 
@@ -68,7 +69,7 @@
 		690C85172817BD4300914156 /* AlertPresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertPresentable.swift; sourceTree = "<group>"; };
 		690C85192818D92300914156 /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
 		690C851B2818DC6700914156 /* WeatherType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherType.swift; sourceTree = "<group>"; };
-		690C851D28191D2600914156 /* WeatherRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherRequest.swift; sourceTree = "<group>"; };
+		690C851D28191D2600914156 /* WeatherListRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherListRequest.swift; sourceTree = "<group>"; };
 		694DBAF52833397500E0A3E3 /* WeatherList.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = WeatherList.storyboard; sourceTree = "<group>"; };
 		694DBAF72833397A00E0A3E3 /* WeatherListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherListViewController.swift; sourceTree = "<group>"; };
 		694DBAF928333A0F00E0A3E3 /* WeatherTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherTableViewCell.swift; sourceTree = "<group>"; };
@@ -77,6 +78,7 @@
 		694DBAFF28335C8300E0A3E3 /* UITableViewCell+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Extension.swift"; sourceTree = "<group>"; };
 		694DBB0128335C9E00E0A3E3 /* NSObjectProtocol+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSObjectProtocol+Extension.swift"; sourceTree = "<group>"; };
 		695A8614282CAD2900637206 /* DispatchQueue+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DispatchQueue+Extension.swift"; sourceTree = "<group>"; };
+		6973A86D284060270070AFA6 /* WeatherRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherRequest.swift; sourceTree = "<group>"; };
 		69BAA403282B801800238787 /* WeatherUseCaseStub.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherUseCaseStub.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -197,7 +199,8 @@
 			children = (
 				690C851B2818DC6700914156 /* WeatherType.swift */,
 				690C85192818D92300914156 /* Weather.swift */,
-				690C851D28191D2600914156 /* WeatherRequest.swift */,
+				690C851D28191D2600914156 /* WeatherListRequest.swift */,
+				6973A86D284060270070AFA6 /* WeatherRequest.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -367,8 +370,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				694DBAFB28333A0F00E0A3E3 /* WeatherTableViewCell.swift in Sources */,
-				690C851E28191D2600914156 /* WeatherRequest.swift in Sources */,
+				690C851E28191D2600914156 /* WeatherListRequest.swift in Sources */,
 				695A8615282CAD2900637206 /* DispatchQueue+Extension.swift in Sources */,
+				6973A86E284060270070AFA6 /* WeatherRequest.swift in Sources */,
 				690C84D92812588A00914156 /* WeatherDisplayViewController.swift in Sources */,
 				690C85102812754A00914156 /* WeatherUseCase.swift in Sources */,
 				690C851C2818DC6700914156 /* WeatherType.swift in Sources */,
