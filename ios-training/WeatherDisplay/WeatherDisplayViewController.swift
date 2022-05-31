@@ -60,27 +60,23 @@ final class WeatherDisplayViewController: UIViewController {
             } catch let error as WeatherFetchError {
                 self.removeObserverWillEnterForegroundNotification()
                 let errorDescription = error.errorDescription ?? ""
-                DispatchQueue.executeMainThread {
-                    self.alertController = self.presentErrorAlert(
-                        title: "エラーが発生しました。\(errorDescription)",
-                        actionHandler: { [weak self] _ in
-                            guard let self = self else { return }
-                            self.addObserverWillEnterForegroundNotification()
-                        }
-                    )
-                    self.indicatorView.stopAnimating()
-                }
+                self.alertController = self.presentErrorAlert(
+                    title: "エラーが発生しました。\(errorDescription)",
+                    actionHandler: { [weak self] _ in
+                        guard let self = self else { return }
+                        self.addObserverWillEnterForegroundNotification()
+                    }
+                )
+                self.indicatorView.stopAnimating()
             } catch {
-                DispatchQueue.executeMainThread {
-                    self.alertController = self.presentErrorAlert(
-                        title: "予期しないエラーが発生しました。",
-                        actionHandler: { [weak self] _ in
-                            guard let self = self else { return }
-                            self.addObserverWillEnterForegroundNotification()
-                        }
-                    )
-                    self.indicatorView.stopAnimating()
-                }
+                self.alertController = self.presentErrorAlert(
+                    title: "予期しないエラーが発生しました。",
+                    actionHandler: { [weak self] _ in
+                        guard let self = self else { return }
+                        self.addObserverWillEnterForegroundNotification()
+                    }
+                )
+                self.indicatorView.stopAnimating()
             }
         }
     }
