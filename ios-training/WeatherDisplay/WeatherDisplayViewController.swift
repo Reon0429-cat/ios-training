@@ -45,9 +45,7 @@ final class WeatherDisplayViewController: UIViewController {
         Task {
             do {
                 let weather = try await weatherUseCase.fetchWeather()
-                DispatchQueue.executeMainThread {
-                    self.configureUI(weather: weather)
-                }
+                configureUI(weather: weather)
             } catch let error as WeatherFetchError {
                 let errorDescription = error.errorDescription ?? ""
                 alertController = presentErrorAlert(

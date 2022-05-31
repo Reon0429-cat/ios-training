@@ -30,17 +30,13 @@ final class WeatherListViewController: UIViewController {
                 tableView.reloadData()
             } catch let error as WeatherFetchError {
                 let errorDescription = error.errorDescription ?? ""
-                DispatchQueue.executeMainThread {
-                    self.presentErrorAlert(
-                        title: "エラーが発生しました。\(errorDescription)"
-                    )
-                }
+                presentErrorAlert(
+                    title: "エラーが発生しました。\(errorDescription)"
+                )
             } catch {
-                DispatchQueue.executeMainThread {
-                    self.presentErrorAlert(
-                        title: "予期しないエラーが発生しました。"
-                    )
-                }
+                self.presentErrorAlert(
+                    title: "予期しないエラーが発生しました。"
+                )
             }
         }
     }
