@@ -91,12 +91,12 @@ final class WeatherDisplayViewController: UIViewController {
     }
     
     private func addObserverWillEnterForegroundNotification() {
-        NotificationCenter.default.addObserver(forName: UIApplication.willEnterForegroundNotification,
-                                               object: nil,
-                                               queue: .main) { [weak self] _ in
-            guard let self = self else { return }
-            self.displayWeather()
-        }
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(displayWeather),
+            name: UIApplication.willEnterForegroundNotification,
+            object: nil
+        )
     }
     
     private func removeObserverWillEnterForegroundNotification() {
