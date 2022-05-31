@@ -17,7 +17,7 @@ final class WeatherDisplayViewController: UIViewController {
     @IBOutlet private weak var indicatorView: UIActivityIndicatorView!
     
     private var alertController: UIAlertController?
-    private var weather: Weather!
+    private var weatherItem: WeatherItem!
     private var weatherUseCase: WeatherUseCaseProtocol!
     
     deinit {
@@ -28,7 +28,7 @@ final class WeatherDisplayViewController: UIViewController {
         super.viewDidLoad()
         weatherImageView.image = nil
         addObserverWillEnterForegroundNotification()
-        configureUI(weather: weather)
+        configureUI(weather: weatherItem.info)
     }
     
     @IBAction private func weatherReloadButtonDidTapped(_ sender: Any) {
@@ -44,7 +44,7 @@ final class WeatherDisplayViewController: UIViewController {
         alertController?.dismiss(animated: true)
         Task {
             do {
-                let weather = try await weatherUseCase.fetchWeather()
+                let weather = try await weatherUseCase.fetchWeather(at: weatherItem.area)
                 configureUI(weather: weather)
             } catch let error as WeatherFetchError {
                 let errorDescription = error.errorDescription ?? ""
@@ -79,14 +79,14 @@ final class WeatherDisplayViewController: UIViewController {
     }
     
     static func instantiate(
-        weather: Weather,
+        weatherItem: WeatherItem,
         weatherUseCase: WeatherUseCaseProtocol
     ) -> WeatherDisplayViewController {
         let weatherDisplayStoryboard = UIStoryboard(name: "WeatherDisplay", bundle: nil)
         let viewController = weatherDisplayStoryboard.instantiateViewController(
             withIdentifier: String(describing: WeatherDisplayViewController.self)
         ) as! WeatherDisplayViewController
-        viewController.weather = weather
+        viewController.weatherItem = weatherItem
         viewController.weatherUseCase = weatherUseCase
         return viewController
     }

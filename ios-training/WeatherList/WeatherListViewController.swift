@@ -61,7 +61,7 @@ final class WeatherListViewController: UIViewController {
     
     private func presentWeatherDisplay(weatherItem: WeatherItem) {
         let viewController = WeatherDisplayViewController.instantiate(
-            weather: weatherItem.info,
+            weatherItem: weatherItem,
             weatherUseCase: WeatherUseCase()
         )
         viewController.modalPresentationStyle = .fullScreen

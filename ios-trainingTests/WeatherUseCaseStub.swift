@@ -20,7 +20,7 @@ final class WeatherUseCaseStub: WeatherUseCaseProtocol {
         return [weatherItem]
     }
     
-    func fetchWeather() async throws -> Weather {
+    func fetchWeather(at area: String) async throws -> Weather {
         return weatherItem.info
     }
 

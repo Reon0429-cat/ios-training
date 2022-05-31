@@ -55,7 +55,7 @@ final class ios_trainingTests: XCTestCase {
     private func setupWeatherDisplay(weatherItem: WeatherItem) {
         let weatherUseCaseStub = WeatherUseCaseStub(weatherItem: weatherItem)
         weatherDisplayViewController = WeatherDisplayViewController.instantiate(
-            weather: weatherItem.info,
+            weatherItem: weatherItem,
             weatherUseCase: weatherUseCaseStub
         )
         weatherDisplayViewController.loadViewIfNeeded()
