@@ -23,12 +23,9 @@ final class WeatherDisplayViewController: UIViewController {
         print("debug", #function)
     }
     
-    override func loadView() {
-        weatherImageView.image = nil
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        weatherImageView.image = nil
         addObserverWillEnterForegroundNotification()
     }
     
