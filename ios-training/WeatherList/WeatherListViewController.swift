@@ -34,7 +34,7 @@ final class WeatherListViewController: UIViewController {
                     title: "エラーが発生しました。\(errorDescription)"
                 )
             } catch {
-                self.presentErrorAlert(
+                presentErrorAlert(
                     title: "予期しないエラーが発生しました。"
                 )
             }
