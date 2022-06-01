@@ -8,14 +8,19 @@
 import UIKit
 
 protocol AlertPresentable {
-    func presentErrorAlert(title: String,
-                           actionHandler: ((UIAlertAction) -> Void)?)
+    func presentErrorAlert(
+        title: String,
+        actionHandler: ((UIAlertAction) -> Void)?
+    ) -> UIAlertController
 }
 
 extension AlertPresentable where Self: UIViewController {
     
-    func presentErrorAlert(title: String,
-                           actionHandler: ((UIAlertAction) -> Void)? = nil) {
+    @discardableResult
+    func presentErrorAlert(
+        title: String,
+        actionHandler: ((UIAlertAction) -> Void)? = nil
+    ) -> UIAlertController {
         let alert = UIAlertController(title: title,
                                       message: nil,
                                       preferredStyle: .alert)
@@ -24,6 +29,7 @@ extension AlertPresentable where Self: UIViewController {
                                         handler: actionHandler)
         alert.addAction(alertAction)
         present(alert, animated: true)
+        return alert
     }
     
 }
