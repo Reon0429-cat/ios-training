@@ -56,7 +56,7 @@ final class WeatherUseCase: WeatherUseCaseProtocol {
         guard let jsonString = String(data: requestData, encoding: .utf8) else {
             throw WeatherFetchError.failedConvertDataToJson
         }
-        let fetchedJson = try await YumemiWeather.asyncFetchWeather(jsonString)
+        let fetchedJson = try await YumemiWeather.asyncFetchWeatherList(jsonString)
         guard let fetchedJsonData = fetchedJson.data(using: .utf8) else {
             throw WeatherFetchError.failedConvertJsonToData
         }
