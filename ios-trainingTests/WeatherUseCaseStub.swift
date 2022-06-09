@@ -9,15 +9,19 @@ import Foundation
 @testable import ios_training
 
 final class WeatherUseCaseStub: WeatherUseCaseProtocol {
+
+    let weatherItem: WeatherItem
     
-    let weather: Weather
-    
-    init(weather: Weather) {
-        self.weather = weather
+    init(weatherItem: WeatherItem) {
+        self.weatherItem = weatherItem
     }
     
-    func fetchWeather() async throws -> Weather {
-        return weather
+    func fetchWeatherItems() async throws -> [WeatherItem] {
+        return [weatherItem]
+    }
+    
+    func fetchWeather(at area: String) async throws -> Weather {
+        return weatherItem.info
     }
 
 }

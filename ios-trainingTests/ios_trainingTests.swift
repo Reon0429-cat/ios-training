@@ -14,42 +14,48 @@ final class ios_trainingTests: XCTestCase {
     
     func test天気予報がsunnyだったら画面に晴れ画像が表示されること() throws {
         let sunnyWeather = Weather(maxTemp: 10, minTemp: 0, weather: "sunny")
-        setupWeatherDisplay(weather: sunnyWeather)
+        let weatherItem = WeatherItem(info: sunnyWeather, area: "Tokyo")
+        setupWeatherDisplay(weatherItem: weatherItem)
         let image = weatherDisplayViewController.weatherImageView!.image
         XCTAssertEqual(image, UIImage(named: "sunny"))
     }
-
+    
     func test天気予報がcloudyだったら画面に曇り画像が表示されること() throws {
         let cloudyWeather = Weather(maxTemp: 10, minTemp: 0, weather: "cloudy")
-        setupWeatherDisplay(weather: cloudyWeather)
+        let weatherItem = WeatherItem(info: cloudyWeather, area: "Tokyo")
+        setupWeatherDisplay(weatherItem: weatherItem)
         let image = weatherDisplayViewController.weatherImageView!.image
         XCTAssertEqual(image, UIImage(named: "cloudy"))
     }
-
+    
     func test天気予報がrainyだったら画面に雨画像が表示されること() throws {
         let rainyWeather = Weather(maxTemp: 10, minTemp: 0, weather: "rainy")
-        setupWeatherDisplay(weather: rainyWeather)
+        let weatherItem = WeatherItem(info: rainyWeather, area: "Tokyo")
+        setupWeatherDisplay(weatherItem: weatherItem)
         let image = weatherDisplayViewController.weatherImageView!.image
         XCTAssertEqual(image, UIImage(named: "rainy"))
     }
-
+    
     func test天気予報の最高気温がUILabelに反映されること() throws {
         let weather = Weather(maxTemp: 10, minTemp: 0, weather: "sunny")
-        setupWeatherDisplay(weather: weather)
+        let weatherItem = WeatherItem(info: weather, area: "Tokyo")
+        setupWeatherDisplay(weatherItem: weatherItem)
         let maxTempText = weatherDisplayViewController.maxTemperatureLabel.text
         XCTAssertEqual(maxTempText, "10")
     }
     
     func test天気予報の最低気温がUILabelに反映されること() throws {
         let weather = Weather(maxTemp: 10, minTemp: 0, weather: "sunny")
-        setupWeatherDisplay(weather: weather)
+        let weatherItem = WeatherItem(info: weather, area: "Tokyo")
+        setupWeatherDisplay(weatherItem: weatherItem)
         let minTempText = weatherDisplayViewController.minTemperatureLabel.text
         XCTAssertEqual(minTempText, "0")
     }
     
-    private func setupWeatherDisplay(weather: Weather) {
-        let weatherUseCaseStub = WeatherUseCaseStub(weather: weather)
+    private func setupWeatherDisplay(weatherItem: WeatherItem) {
+        let weatherUseCaseStub = WeatherUseCaseStub(weatherItem: weatherItem)
         weatherDisplayViewController = WeatherDisplayViewController.instantiate(
+            weatherItem: weatherItem,
             weatherUseCase: weatherUseCaseStub
         )
         weatherDisplayViewController.loadViewIfNeeded()

@@ -16,8 +16,9 @@ final class WeatherDisplayViewController: UIViewController {
     @IBOutlet private weak var closeButton: UIButton!
     @IBOutlet private weak var indicatorView: UIActivityIndicatorView!
     
-    private var weatherUseCase: WeatherUseCaseProtocol!
     private var alertController: UIAlertController?
+    private var weatherItem: WeatherItem!
+    private var weatherUseCase: WeatherUseCaseProtocol!
     
     deinit {
         print("debug", #function)
@@ -27,80 +28,67 @@ final class WeatherDisplayViewController: UIViewController {
         super.viewDidLoad()
         weatherImageView.image = nil
         addObserverWillEnterForegroundNotification()
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        displayWeather()
+        configureUI(weather: weatherItem.info)
     }
     
     @IBAction private func weatherReloadButtonDidTapped(_ sender: Any) {
-        displayWeather()
+        reloadWeather()
     }
     
     @IBAction private func closeButtonDidTapped(_ sender: Any) {
         dismiss(animated: true)
     }
     
-    @objc private func displayWeather() {
+    @objc private func reloadWeather() {
         indicatorView.startAnimating()
         alertController?.dismiss(animated: true)
         Task {
             do {
-                let weather = try await weatherUseCase.fetchWeather()
-                weatherImageView.image = UIImage(named: weather.imageName)
-                weatherImageView.tintColor = weather.imageColor
-                minTemperatureLabel.text = String(weather.minTemp)
-                maxTemperatureLabel.text = String(weather.maxTemp)
-                indicatorView.stopAnimating()
+                let weather = try await weatherUseCase.fetchWeather(at: weatherItem.area)
+                configureUI(weather: weather)
             } catch let error as WeatherFetchError {
-                self.removeObserverWillEnterForegroundNotification()
                 let errorDescription = error.errorDescription ?? ""
-                self.alertController = self.presentErrorAlert(
-                    title: "エラーが発生しました。\(errorDescription)",
-                    actionHandler: { [weak self] _ in
-                        guard let self = self else { return }
-                        self.addObserverWillEnterForegroundNotification()
-                    }
+                alertController = presentErrorAlert(
+                    title: "エラーが発生しました。\(errorDescription)"
                 )
-                self.indicatorView.stopAnimating()
+                indicatorView.stopAnimating()
             } catch {
-                self.alertController = self.presentErrorAlert(
-                    title: "予期しないエラーが発生しました。",
-                    actionHandler: { [weak self] _ in
-                        guard let self = self else { return }
-                        self.addObserverWillEnterForegroundNotification()
-                    }
+                alertController = presentErrorAlert(
+                    title: "予期しないエラーが発生しました。"
                 )
-                self.indicatorView.stopAnimating()
+                indicatorView.stopAnimating()
             }
         }
-    }
-    
-    static func instantiate(weatherUseCase: WeatherUseCaseProtocol) -> WeatherDisplayViewController {
-        let weatherDisplayStoryboard = UIStoryboard(name: "WeatherDisplay", bundle: nil)
-        let viewController = weatherDisplayStoryboard.instantiateViewController(
-            withIdentifier: String(describing: WeatherDisplayViewController.self)
-        ) as! WeatherDisplayViewController
-        viewController.weatherUseCase = weatherUseCase
-        return viewController
     }
     
     private func addObserverWillEnterForegroundNotification() {
         NotificationCenter.default.addObserver(
             self,
-            selector: #selector(displayWeather),
+            selector: #selector(reloadWeather),
             name: UIApplication.willEnterForegroundNotification,
             object: nil
         )
     }
     
-    private func removeObserverWillEnterForegroundNotification() {
-        NotificationCenter.default.removeObserver(
-            self,
-            name: UIApplication.willEnterForegroundNotification,
-            object: nil
-        )
+    private func configureUI(weather: Weather) {
+        weatherImageView.image = UIImage(named: weather.imageName)
+        weatherImageView.tintColor = weather.imageColor
+        minTemperatureLabel.text = String(weather.minTemp)
+        maxTemperatureLabel.text = String(weather.maxTemp)
+        indicatorView.stopAnimating()
+    }
+    
+    static func instantiate(
+        weatherItem: WeatherItem,
+        weatherUseCase: WeatherUseCaseProtocol
+    ) -> WeatherDisplayViewController {
+        let weatherDisplayStoryboard = UIStoryboard(name: "WeatherDisplay", bundle: nil)
+        let viewController = weatherDisplayStoryboard.instantiateViewController(
+            withIdentifier: String(describing: WeatherDisplayViewController.self)
+        ) as! WeatherDisplayViewController
+        viewController.weatherItem = weatherItem
+        viewController.weatherUseCase = weatherUseCase
+        return viewController
     }
     
 }

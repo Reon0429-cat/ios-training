@@ -2,7 +2,7 @@
 //  WeatherRequest.swift
 //  ios-training
 //
-//  Created by 大西 玲音 on 2022/04/27.
+//  Created by 大西 玲音 on 2022/05/27.
 //
 
 import Foundation
